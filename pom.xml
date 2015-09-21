@@ -1,0 +1,13 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.biovoxxel</groupId>
+  <artifactId>biovoxxel_toolbox</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>BioVoxxel_Toolbox</name>
+  <url>https://github.com/biovoxxel/BioVoxxel_Toolbox</url>
+  <description>The BioVoxxel toolbox contains different plugins for image filtering, tools for improved image binarization as well as tools for binary image analysis</description>
+  <organization>
+  	<name>BioVoxxel</name>
+  	<url>http://www.biovoxxel.de</url>
+  </organization>
+</project>
