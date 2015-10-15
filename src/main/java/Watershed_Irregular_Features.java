@@ -69,14 +69,14 @@ public class Watershed_Irregular_Features implements ExtendedPlugInFilter, Dialo
 	private double AreaMax = 999999999.9;
 	private int options = ParticleAnalyzer.RECORD_STARTS;
 	private int measurements = Measurements.CENTROID;
-	private int flags = DOES_8G|KEEP_PREVIEW|SNAPSHOT;
+	private int flags = DOES_8G|KEEP_PREVIEW|SNAPSHOT|DOES_STACKS;
 	public int setup(String arg, ImagePlus imp) {
 		this.imp = imp; 
 		if(!imp.getProcessor().isBinary()) {
 			IJ.error("works only on 8-bit binary images");
 			return DONE;
 		} else {
-			return DOES_8G | DOES_STACKS;
+			return flags;
 		}
 		
 	
@@ -123,7 +123,7 @@ public class Watershed_Irregular_Features implements ExtendedPlugInFilter, Dialo
 		}
 		
 		Checkbox previewCheckbox = (Checkbox) gd.getCheckboxes().get(1);
-		if(gd.invalidNumber() || erosions<1 || convexityThreshold<0.0 || convexityThreshold>1.0 || separatorRange.substring(0, separatorRange.indexOf("-")).equals("") || separatorRange.substring(separatorRange.indexOf("-")+1).equals("") || Double.isNaN(AreaMin) || Double.isNaN(AreaMax)) {
+		if(gd.invalidNumber() || erosions<1 || convexityThreshold<0.0 || convexityThreshold>1.0 || separatorRange.equals("-") || separatorRange.substring(0, separatorRange.indexOf("-")).equals("") || separatorRange.substring(separatorRange.indexOf("-")+1).equals("") || Double.isNaN(AreaMin) || Double.isNaN(AreaMax)) {
 			if (previewCheckbox.getState()) {
 				previewCheckbox.setSize(130, 20);
 				previewCheckbox.setLabel("Invalid number");
