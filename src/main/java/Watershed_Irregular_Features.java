@@ -55,7 +55,6 @@ import ij.process.ImageProcessor;
  */
 
 public class Watershed_Irregular_Features implements ExtendedPlugInFilter, DialogListener {
-	@SuppressWarnings("unused")
 	ImagePlus imp;
 	private double erosions = 1;
 	private double convexityThreshold = 0;
@@ -105,6 +104,12 @@ public class Watershed_Irregular_Features implements ExtendedPlugInFilter, Dialo
 		excludeRange = gd.getNextBoolean();
 		
 		//read out the separator Range definitions
+		try {
+			separatorRange.substring(0, separatorRange.indexOf("-"));
+		} catch (java.lang.StringIndexOutOfBoundsException oobe) {
+			separatorRange = "-";
+		}
+		
 		try {
 			AreaMin = Double.parseDouble(separatorRange.substring(0, separatorRange.indexOf("-")));
 		} catch (java.lang.NumberFormatException minException) {
