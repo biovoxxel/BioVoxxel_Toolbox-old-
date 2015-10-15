@@ -57,7 +57,7 @@ import ij.plugin.filter.RankFilters;
 public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogListener {
 	private ImagePlus imp;
 	private String originalImageTitle;
-	private int flags = DOES_8G|DOES_16|DOES_RGB|KEEP_PREVIEW|SNAPSHOT;
+	private int flags = DOES_8G|DOES_16|DOES_RGB|KEEP_PREVIEW|SNAPSHOT;	//TODO make it work with stacks
 	private PlugInFilterRunner pfr;
 	private int nPasses = 1;
 	private int pass;
@@ -85,7 +85,7 @@ public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogList
            	IJ.register(this.getClass());	// protect static class variables (filter parameters) from garbage collection
 			//radius = (int) gd.getNextNumber();
 	        this.pfr = pfr;
-	        return IJ.setupDialog(imp, flags); // ask whether to process all slices of stack (if a stack)
+	        return IJ.setupDialog(imp, flags);
 	}
 
 
