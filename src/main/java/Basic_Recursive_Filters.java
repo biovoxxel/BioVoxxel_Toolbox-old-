@@ -1,6 +1,7 @@
 
 import java.awt.AWTEvent;
 import java.awt.Checkbox;
+import java.awt.Component;
 
 import ij.*;
 import ij.ImagePlus;
@@ -55,7 +56,7 @@ import ij.plugin.filter.RankFilters;
 
 public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogListener {
 	private ImagePlus imp;
-	private String originalImageTitle = imp.getTitle();
+	private String originalImageTitle;
 	private int flags = DOES_8G|DOES_16|DOES_RGB|KEEP_PREVIEW|SNAPSHOT;
 	private PlugInFilterRunner pfr;
 	private int nPasses = 1;
@@ -66,16 +67,19 @@ public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogList
 	private int chosenIteration;
 	private double chosenRadius;
 	
+	private int runs = 0;
+	
 	public int showDialog(ImagePlus imp, String command, PlugInFilterRunner pfr) {
 		GenericDialog gd = new GenericDialog("Gaussian Weighted Median");
 			gd.addChoice("filter", filter, "Median");
-			gd.addNumericField("radius", 1, 0);
-            gd.addNumericField("max. iterations", 200, 0);
+			gd.addNumericField("radius", 1, 0, 10, "max.: 3");
+            gd.addNumericField("max_iterations", 200, 0, 10, "max.: 500");
             			
 			gd.addPreviewCheckbox(pfr);	// passing pfr makes the filter ready for preview
             gd.addDialogListener(this);	// the DialogItemChanged method will be called on user input
             gd.showDialog();		// display the dialog; preview runs in the background now
             if (gd.wasCanceled()) {
+            	imp.setTitle(originalImageTitle);
             	return DONE;
             }
            	IJ.register(this.getClass());	// protect static class variables (filter parameters) from garbage collection
@@ -91,7 +95,7 @@ public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogList
 		chosenIteration = (int) gd.getNextNumber();
 		
 		Checkbox previewCheckbox = (Checkbox) gd.getCheckboxes().get(0);
-		if (gd.invalidNumber() || chosenRadius<=0 || chosenRadius>5 || chosenIteration<1 || chosenIteration>500) {
+		if (gd.invalidNumber() || chosenRadius<=0 || chosenRadius>3 || chosenIteration<1 || chosenIteration>500) {
 			if (previewCheckbox.getState()) {
 				previewCheckbox.setSize(130, 20);
 				previewCheckbox.setLabel("Invalid number");
@@ -110,7 +114,7 @@ public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogList
 		boolean continueProcessing = true;
 		double[] consecutiveMean = new double[2]; 
 		ImageCalculator ic = new ImageCalculator();
-		int runs = 0;
+		runs = 0;
 		
 		while(continueProcessing) {
 			if(chosenFilter.equals("Median")) {
@@ -164,6 +168,7 @@ public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogList
 
 	public int setup(String arg, ImagePlus imp) {
 		this.imp = imp;
+		originalImageTitle = imp.getTitle();
 		return flags;
 	}
 }
