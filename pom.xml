@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.biovoxxel</groupId>
 	<artifactId>biovoxxel_toolbox</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>BioVoxxel_Toolbox</name>
 	<url>https://github.com/biovoxxel/BioVoxxel_Toolbox</url>
 	<description>The BioVoxxel toolbox contains different plugins for image filtering, tools for improved image binarization as well as tools for binary image analysis</description>
@@ -11,16 +11,22 @@
 		<name>BioVoxxel</name>
 		<url>http://www.biovoxxel.de</url>
 	</organization>
+	<repositories>
+		<repository>
+			<id>imagej.public</id>
+			<url>http://maven.imagej.net/content/groups/public</url>
+		</repository>
+	</repositories>
 	<dependencies>
-		<dependency>
-			<groupId>de.biomedical-imaging.ij</groupId>
-			<artifactId>ij_blob</artifactId>
-			<version>1.4.1</version>
-		</dependency>
 		<dependency>
 			<groupId>net.imagej</groupId>
 			<artifactId>ij</artifactId>
 			<version>1.50b</version>
+		</dependency>
+		<dependency>
+			<groupId>de.biomedical-imaging.ij</groupId>
+			<artifactId>ij_blob</artifactId>
+			<version>1.4.5</version>
 		</dependency>
 	</dependencies>
 </project>
