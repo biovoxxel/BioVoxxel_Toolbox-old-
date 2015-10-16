@@ -45,7 +45,7 @@ public class Binary_Feature_Extractor implements PlugInFilter {
 
 	public int setup(String arg, ImagePlus imp) {
 		this.imp = imp;
-		return DOES_ALL;
+		return DOES_8G;
 	}
 
 	public void run(ImageProcessor ip) {
