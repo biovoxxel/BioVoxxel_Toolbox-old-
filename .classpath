@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="" kind="src" path="src/main/java"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -13,33 +18,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="/scijava-common"/>
 	<classpathentry kind="src" path="/imagej"/>
-	<classpathentry kind="lib" path="C:/Users/BioVoxxel/.m2/repository/net/imagej/ij/1.50a/ij-1.50a.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="net.imagej"/>
-			<attribute name="maven.artifactId" value="ij"/>
-			<attribute name="maven.version" value="1.50a"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="src" path="/imagej-common"/>
-	<classpathentry kind="lib" path="C:/Users/BioVoxxel/.m2/repository/net/imagej/imagej-common/0.18.0/imagej-common-0.18.0.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="net.imagej"/>
-			<attribute name="maven.artifactId" value="imagej-common"/>
-			<attribute name="maven.version" value="0.18.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/BioVoxxel/.m2/repository/io/scif/scifio/0.25.0/scifio-0.25.0.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="io.scif"/>
-			<attribute name="maven.artifactId" value="scifio"/>
-			<attribute name="maven.version" value="0.25.0"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
