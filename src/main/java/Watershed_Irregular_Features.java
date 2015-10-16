@@ -73,22 +73,16 @@ public class Watershed_Irregular_Features implements ExtendedPlugInFilter, Dialo
 	
 	public int setup(String arg, ImagePlus imp) {
 		this.imp = imp;
-		try {
-			imp.getProcessor();
-		} catch (java.lang.NullPointerException e) {
-			IJ.showMessage("No image open");
-			return DONE;
-		}
+		return flags;
+	}
+
+	public int showDialog(ImagePlus imp, String command, PlugInFilterRunner pfr) {
+		
 		if(!imp.getProcessor().isBinary()) {
 			IJ.error("works only on 8-bit binary images");
 			return DONE;
-		} else {
-			return flags;
 		}
 		
-	
-	}
-	public int showDialog(ImagePlus imp, String command, PlugInFilterRunner pfr) {
 		GenericDialog gd = new GenericDialog("Watershed Irregular Features");
 		gd.addNumericField("erosion cycle number:", 1, 0, 5, "");
 		gd.addNumericField("convexity_threshold", 0, 2, 5, "");
