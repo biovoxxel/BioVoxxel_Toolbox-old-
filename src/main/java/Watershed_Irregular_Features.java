@@ -69,8 +69,16 @@ public class Watershed_Irregular_Features implements ExtendedPlugInFilter, Dialo
 	private int options = ParticleAnalyzer.RECORD_STARTS;
 	private int measurements = Measurements.CENTROID;
 	private int flags = DOES_8G|KEEP_PREVIEW|SNAPSHOT|DOES_STACKS;
+	
+	
 	public int setup(String arg, ImagePlus imp) {
-		this.imp = imp; 
+		this.imp = imp;
+		try {
+			imp.getProcessor();
+		} catch (java.lang.NullPointerException e) {
+			IJ.showMessage("No image open");
+			return DONE;
+		}
 		if(!imp.getProcessor().isBinary()) {
 			IJ.error("works only on 8-bit binary images");
 			return DONE;
