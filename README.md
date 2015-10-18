@@ -3,9 +3,40 @@
 
 # BioVoxxel_Toolbox
 
-Here the existing BioVoxxel toolbox plugins will be hosted in near future
+The BioVoxxel Toolbox is a suite which contains plugins and some macros dealing with image filtering, image segmentation and binary image processing and analysis. The following plugins are hosted here, so are:
 
+* Extended Particle Analyzer
+* Binary Feature Extractor
+* Speckle Inspector
+* Watershed Irregular Features
+* EDM Binary Operations
+* Filter Check
+* Pseudo flat-field correction
+* Convoluted Background Subtraction
+* 2D Particle Distribution (Distribution_Analysis)
+* Cluster Indicator
+* Gaussian weighted Median filter
+* Adaptive Filter
+* Enhance True Color Contrast
+* Mode and Differential Limited Mean Binarization
+
+# Under development
+
+* Basic Recursive Filter
 
 # License
 The BioVoxxel Toolbox project runs under the [BSD-3 License](./LICENSE)
+
+# BioVoxxel on the web
+
+[www.biovoxxel.de](www.biovoxxel.de)
+
+[www.biovoxxel.com](www.biovoxxel.com)
+
+# Contact
+
+via [BioVoxxel gitter channel](https://gitter.im/biovoxxel/BioVoxxel_Toolbox)
+
+via [E-Mail](mailto:jan.brocher@biovoxxel.de)
+
 
