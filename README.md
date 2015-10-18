@@ -29,9 +29,9 @@ The BioVoxxel Toolbox project runs under the [BSD-3 License](./LICENSE)
 
 # BioVoxxel on the web
 
-[www.biovoxxel.de](www.biovoxxel.de)
+[www.biovoxxel.de](http://www.biovoxxel.de)
 
-[www.biovoxxel.com](www.biovoxxel.com)
+[www.biovoxxel.com](http://www.biovoxxel.com)
 
 # Contact
 
