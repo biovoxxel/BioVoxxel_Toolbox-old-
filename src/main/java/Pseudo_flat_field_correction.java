@@ -72,7 +72,6 @@ public class Pseudo_flat_field_correction implements ExtendedPlugInFilter, Dialo
 	ImageProcessor visualizedBlur;
 	ImagePlus updatedBlurImage = new ImagePlus();
 	ImagePlus existingPreviewImage = null;
-	//implementation for RGB images still has bugs and is not functional so far --> solve this problem
 	int flags = DOES_8G|DOES_16|DOES_RGB|KEEP_PREVIEW;
 	private int nPasses = 1;
 	private int pass; 
