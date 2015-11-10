@@ -37,7 +37,7 @@ import ij.plugin.ImageCalculator;
  
  public class Convoluted_Background_Subtraction implements ExtendedPlugInFilter, DialogListener {
 	ImagePlus imp;
-	private int flags = DOES_8G|KEEP_PREVIEW|SNAPSHOT;
+	private int flags = DOES_8G|DOES_16|KEEP_PREVIEW|SNAPSHOT;
 	private PlugInFilterRunner pfr;
 	private int nPasses = 1;
 	private int pass;
@@ -58,7 +58,7 @@ import ij.plugin.ImageCalculator;
 			gd.addNumericField("radius:", 1.0, 1);
 			gd.addPreviewCheckbox(pfr);	// passing pfr makes the filter ready for preview
 			gd.addDialogListener(this);	// the DialogItemChanged method will be called on user input
-			gd.addHelp("http://fiji.sc/BioVoxxel_Toolbox");
+			gd.addHelp("http://imagej.net/BioVoxxel_Toolbox");
 			gd.showDialog();		// display the dialog; preview runs in the background now
 			if (gd.wasCanceled()) {
 				return DONE;
@@ -88,15 +88,15 @@ import ij.plugin.ImageCalculator;
 	}
 	
 	public void run(ImageProcessor ip) {
-		if(IJ.escapePressed()) {
-	       	ip.reset();
-	    }
+		
 		ImageProcessor duplicateIP = ip.duplicate();
 		ImagePlus duplicatedIMP = new ImagePlus("duplicatedIMP", duplicateIP);
 		
 		if(convolutionFilterChoice.equals("Gaussian")) {
 			GaussianBlur gb = new GaussianBlur();
 			gb.blurGaussian(duplicateIP, filterRadius, filterRadius, 0.001);
+			RankFilters rf = new RankFilters();
+			rf.rank(duplicateIP, java.lang.Math.floor(filterRadius/10)*1.5, RankFilters.MAX); // counteracts the size reduction of features during median convolution filtering
 		} else if(convolutionFilterChoice.equals("Median")) {
 			RankFilters rf = new RankFilters();
 			rf.rank(duplicateIP, filterRadius, RankFilters.MEDIAN);
@@ -104,18 +104,19 @@ import ij.plugin.ImageCalculator;
 		} else if(convolutionFilterChoice.equals("Mean")) {
 			RankFilters rf = new RankFilters();
 			rf.rank(duplicateIP, filterRadius, RankFilters.MEAN);
+			rf.rank(duplicateIP, java.lang.Math.floor(filterRadius/10)*1.5, RankFilters.MAX); // counteracts the size reduction of features during median convolution filtering
 		}
 		
 		ImageCalculator ic = new ImageCalculator();
 		ImagePlus cbgsImp = ic.run("Subtract create", imp, duplicatedIMP);
+		ImageProcessor cbgsIP = cbgsImp.getProcessor();
 		
 		for(int y=0; y<imp.getHeight(); y++) {
 			for (int x=0; x<imp.getWidth(); x++) {
-				ip.putPixel(x, y, cbgsImp.getPixel(x, y));
+				ip.putPixel(x, y, cbgsIP.getPixel(x, y));
 			}
 		}
-		imp.updateAndDraw();
-		pass++;
+		//imp.updateAndDraw();
 	}
 	
 	
