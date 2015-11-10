@@ -77,6 +77,9 @@ public class Particle_Distribution2D implements PlugInFilter {
 			gd.addRadioButtonGroup("statistical method", statisticalMethodArray, 1, 2, "median");
 			gd.addRadioButtonGroup("conficence interval (CI)", confidenceInterval, 1, 3, "95%");
 			gd.showDialog();
+			if (gd.wasCanceled()) {
+            	return;
+            }
 			
 			minSize = gd.getNextNumber();
 			maxSizeString = gd.getNextString();
