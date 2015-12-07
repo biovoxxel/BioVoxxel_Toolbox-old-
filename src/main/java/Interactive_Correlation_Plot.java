@@ -176,7 +176,12 @@ public class Interactive_Correlation_Plot implements PlugInFilter, MouseListener
 		//IJ.log("mouseReleased");
 		Roi currentSelection = plotIMP.getRoi();
 		Calibration cal = plotIMP.getCalibration();
-		ImageProcessor selectedPlotArea = currentSelection.getMask();
+		ImageProcessor selectedPlotArea = null; 
+		try {
+			selectedPlotArea = currentSelection.getMask();
+		} catch(NullPointerException npe) {
+			return;
+		}
 							//test output
 							//ImagePlus maskIMP = new ImagePlus("Mask", selectedPlotArea);
 							//maskIMP.show();
