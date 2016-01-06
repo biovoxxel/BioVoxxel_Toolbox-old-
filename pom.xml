@@ -11,6 +11,36 @@
 		<name>BioVoxxel</name>
 		<url>http://www.biovoxxel.de</url>
 	</organization>
+	<licenses>
+		<license>
+			<name>3-Clause BSD License</name>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>biovoxxel</id>
+			<name>Jan Brocher</name>
+			<email>jan.brocher@biovoxxel.de</email>
+			<organization>BioVoxxel</organization>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+	<contributors>
+		<contributor>
+			<name>Thorsten Wagner</name>
+			<url>http://www.biomedical-imaging.de</url>
+			<organization>FH Dortmund</organization>
+			<organizationUrl>http://loci.wisc.edu/</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>-6</timezone>
+		</contributor>
+	</contributors>
 	
 	<repositories>
 		<repository>
