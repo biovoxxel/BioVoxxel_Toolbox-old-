@@ -1,3 +1,4 @@
+package de.biovoxxel;
 import ij.*;
 import ij.process.*;
 import ij.gui.*;
@@ -46,8 +47,8 @@ public class Interactive_Correlation_Plot implements PlugInFilter, MouseListener
 	int startX, startY, w, h;
 	int flags = DOES_RGB|SNAPSHOT|SUPPORTS_MASKING;
 	
-	private double[] dR;
-	private double[] dG;
+	private double[] ch1;
+	private double[] ch2;
 	
 	
 	public int setup(String arg, ImagePlus imp) {
@@ -79,8 +80,8 @@ public class Interactive_Correlation_Plot implements PlugInFilter, MouseListener
 	
 	public Plot createPlot(ImagePlus inputImage, ImageProcessor inputSelection) {
 		int inputImageSize = inputImage.getWidth() * inputImage.getHeight();
-		dR = new double[inputImageSize];
-		dG = new double[inputImageSize];
+		ch1 = new double[inputImageSize];
+		ch2 = new double[inputImageSize];
 		double sumRed = 0;
 		double sumGreen = 0;
 		
@@ -92,22 +93,22 @@ public class Interactive_Correlation_Plot implements PlugInFilter, MouseListener
 		for(int y=0; y<inputImage.getHeight(); y++) {
 			for(int x=0; x<inputImage.getWidth(); x++) {
 				if(inputSelection==null || inputSelection.getPixel(x,y)!=0) {
-					dR[index] = (double) ((colorIP.getPixel(x,y)>>16)&0xff);
-					dG[index] = (double) ((colorIP.getPixel(x,y)>>8)&0xff);
-					sumRed = sumRed + dR[index];
-					sumGreen = sumGreen + dG[index];
+					ch1[index] = (double) ((colorIP.getPixel(x,y)>>16)&0xff);
+					ch2[index] = (double) ((colorIP.getPixel(x,y)>>8)&0xff);
+					sumRed = sumRed + ch1[index];
+					sumGreen = sumGreen + ch2[index];
 					index++;
 				} else {
-					dR[index] = 0.0;
-					dG[index] = 0.0;
-					sumRed = sumRed + dR[index];
-					sumGreen = sumGreen + dG[index];
+					ch1[index] = 0.0;
+					ch2[index] = 0.0;
+					sumRed = sumRed + ch1[index];
+					sumGreen = sumGreen + ch2[index];
 					index++;
 				}
 			}
 		}
 		
-		CurveFitter cf = new CurveFitter(dR, dG);
+		CurveFitter cf = new CurveFitter(ch1, ch2);
 		cf.doFit(CurveFitter.STRAIGHT_LINE);
 		double[] param = cf.getParams();
 		double R = cf.getRSquared();
@@ -124,13 +125,13 @@ public class Interactive_Correlation_Plot implements PlugInFilter, MouseListener
 		//double KoSmirTest = KST.kolmogorovSmirnovStatistic(dR, dG);
 		
 		PearsonsCorrelation pearsonCorr = new PearsonsCorrelation();
-		double pcc = pearsonCorr.correlation(dR, dG);
+		double pcc = pearsonCorr.correlation(ch1, ch2);
 		SpearmansCorrelation spearmanCorr = new SpearmansCorrelation();
-		double spc = spearmanCorr.correlation(dR, dG);
+		double spc = spearmanCorr.correlation(ch1, ch2);
 		
 		//after addition of apache.commons.math3 version 3.4.1
 		KendallsCorrelation kendallsCorr = new KendallsCorrelation();
-		double tau = kendallsCorr.correlation(dR, dG);
+		double tau = kendallsCorr.correlation(ch1, ch2);
 		
 		double averageRed = sumRed / index;
 		double averageGreen = sumGreen / index;
@@ -139,7 +140,7 @@ public class Interactive_Correlation_Plot implements PlugInFilter, MouseListener
 		correlationPlot.setSize(600, 580);
 		correlationPlot.setFrameSize(510, 510);
 		correlationPlot.setLimits(0.0, 255.0, 0.0, 255.0);
-		correlationPlot.addPoints(dR, dG, Plot.DOT);
+		correlationPlot.addPoints(ch1, ch2, Plot.DOT);
 		correlationPlot.setColor(java.awt.Color.red);
 		correlationPlot.drawLine(averageRed, 0.0, averageRed, 255.0);
 		correlationPlot.setColor(java.awt.Color.green);
@@ -216,9 +217,9 @@ public class Interactive_Correlation_Plot implements PlugInFilter, MouseListener
 					}
 					
 					for(int i=0; i<imagePixelCount; i++) {
-						if((dR[i]>=xOrigin && dR[i]<=(xOrigin+boundingRectangle.width)) && (dG[i]<=yOrigin && dG[i]>=(yOrigin-boundingRectangle.height)) && (imageRoi==null || imageRoi.getPixel((i % w),(i / w))!=0)) {
+						if((ch1[i]>=xOrigin && ch1[i]<=(xOrigin+boundingRectangle.width)) && (ch2[i]<=yOrigin && ch2[i]>=(yOrigin-boundingRectangle.height)) && (imageRoi==null || imageRoi.getPixel((i % w),(i / w))!=0)) {
 							for(int r=0; r<count; r++) {
-								if(dR[i]==storedValueCh1[r] && dG[i]==storedValueCh2[r]) {
+								if(ch1[i]==storedValueCh1[r] && ch2[i]==storedValueCh2[r]) {
 									y = (i / w);
 									x = (i % w);
 									ip.putPixelValue((x + startX), (y + startY), 255.0);
@@ -243,9 +244,9 @@ public class Interactive_Correlation_Plot implements PlugInFilter, MouseListener
 					}
 					
 					for(int i=0; i<imagePixelCount; i++) {
-						if((dR[i]>=xOrigin && dR[i]<=(xOrigin+boundingRectangle.width)) && (dG[i]<=yOrigin && dG[i]>=(yOrigin-boundingRectangle.height)) && (imageRoi==null || imageRoi.getPixel((i % w),(i / w))!=0)) {
+						if((ch1[i]>=xOrigin && ch1[i]<=(xOrigin+boundingRectangle.width)) && (ch2[i]<=yOrigin && ch2[i]>=(yOrigin-boundingRectangle.height)) && (imageRoi==null || imageRoi.getPixel((i % w),(i / w))!=0)) {
 							for(int r=0; r<count; r++) {
-								if(dR[i]==storedValueCh1[r] && dG[i]==storedValueCh2[r]) {
+								if(ch1[i]==storedValueCh1[r] && ch2[i]==storedValueCh2[r]) {
 									y = (i / w);
 									x = (i % w);
 									//IJ.log(""+x +" / " + y);

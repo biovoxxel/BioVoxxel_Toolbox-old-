@@ -1,3 +1,4 @@
+package de.biovoxxel;
 
 import java.awt.AWTEvent;
 import java.awt.Checkbox;
@@ -70,7 +71,7 @@ public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogList
 	private int runs = 0;
 	
 	public int showDialog(ImagePlus imp, String command, PlugInFilterRunner pfr) {
-		GenericDialog gd = new GenericDialog("Gaussian Weighted Median");
+		GenericDialog gd = new GenericDialog("Recursive filtering");
 			gd.addChoice("filter", filter, "Median");
 			gd.addNumericField("radius", 1, 0, 10, "max.: 3");
             gd.addNumericField("max_iterations", 200, 0, 10, "max.: 500");
@@ -109,7 +110,8 @@ public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogList
 	
 	
 	public void run(ImageProcessor ip) {
-				
+		
+		
 		ImagePlus duplicateImp = imp.duplicate();
 		boolean continueProcessing = true;
 		double[] consecutiveMean = new double[2]; 
@@ -123,7 +125,7 @@ public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogList
 			} else if(chosenFilter.equals("Mean")) {
 				RankFilters rf = new RankFilters();
 				rf.rank(ip, chosenRadius, RankFilters.MEAN);
-			} else {
+			} else if(chosenFilter.equals("Gaussian")){
 				GaussianBlur gb = new GaussianBlur();
 				gb.blurGaussian(ip, chosenRadius, chosenRadius, 0.01);
 			}
@@ -147,8 +149,6 @@ public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogList
 				continueProcessing = true;
 			}
 			
-			differenceImp = null;
-			imgStat = null;
 			
 			if(runs>(chosenIteration-1)) {
 				continueProcessing = false;
