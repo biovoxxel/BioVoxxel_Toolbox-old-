@@ -67,23 +67,17 @@
 	</dependencies>
 	
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>de.biovoxxel</groupId>
-				<artifactId>Biovoxxel_Plugins</artifactId>
-				<version>1.1.0</version>
-				<configuration>
-					<executable>java</executable>
-					<arguments>
-						<argument>-classpath</argument>
-						<classpath />
-						<argument>-Dimagej.ui=${imagej.ui}</argument>
-						<argument>${main-class}</argument>
-					</arguments>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
+        <configuration>
+          <outputDirectory>D:\Fiji\Fiji.app (uploads)\Fiji.app\plugins</outputDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 			
 	<parent>
 		<groupId>sc.fiji</groupId>
