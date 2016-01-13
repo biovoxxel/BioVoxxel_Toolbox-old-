@@ -1,4 +1,4 @@
-package de.biovoxxel;
+
 import ij.*;
 import ij.process.*;
 import ij.gui.*;
@@ -7,7 +7,12 @@ import ij.plugin.filter.*;
 import ij.gui.Roi;
 import ij.gui.GenericDialog;
 import java.io.File;
+
+import org.scijava.command.Command;
+import org.scijava.plugin.Plugin;
+
 import ij.util.Tools;
+import net.imagej.ImageJ;
 
 /*
  *	Copyright (C), Jan Brocher / BioVoxxel. All rights reserved.
