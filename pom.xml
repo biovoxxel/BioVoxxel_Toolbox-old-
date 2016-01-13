@@ -67,17 +67,16 @@
 	</dependencies>
 	
 	<build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3.1</version>
-        <configuration>
-          <outputDirectory>D:\Fiji\Fiji.app (uploads)\Fiji.app\plugins</outputDirectory>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+	  <plugins>
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-jar-plugin</artifactId>
+	      <configuration>
+	        <outputDirectory>D:\Fiji\Fiji.app (uploads)\Fiji.app\plugins</outputDirectory>
+	      </configuration>
+	    </plugin>
+	  </plugins>
+	</build>
 			
 	<parent>
 		<groupId>sc.fiji</groupId>
