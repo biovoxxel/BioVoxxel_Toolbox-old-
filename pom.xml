@@ -66,24 +66,13 @@
 			</dependency>
 	</dependencies>
 	
-	<build>
-	  <plugins>
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-	      <artifactId>maven-jar-plugin</artifactId>
-	      <configuration>
-	        <outputDirectory>D:\Fiji\Fiji.app (uploads)\Fiji.app\plugins</outputDirectory>
-	      </configuration>
-	    </plugin>
-	  </plugins>
-	</build>
-			
 	<parent>
 		<groupId>sc.fiji</groupId>
 		<artifactId>pom-fiji</artifactId>
 		<version>21.0.1-SNAPSHOT</version>
 		<relativePath />
 	</parent>
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
