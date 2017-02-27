@@ -658,7 +658,12 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 							outputResultsTable.setValue(column, row, 0);
 						}
 						
-						outputResultsTable.setValue(column, (row+existingResultsCounter), resultsTable.getValueAsDouble(column, row));
+						try {
+							outputResultsTable.setValue(column, (row+existingResultsCounter), resultsTable.getValueAsDouble(column, row));
+						} catch (Exception e) {
+							//e.printStackTrace();
+							outputResultsTable.setValue(column, (row+existingResultsCounter), 0);
+						}
 					}
 					
 				}
