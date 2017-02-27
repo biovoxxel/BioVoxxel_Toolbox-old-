@@ -1,15 +1,15 @@
 
-import ij.*;
-import ij.process.*;
-import ij.gui.*;
-import java.awt.*;
-import ij.plugin.filter.*;
-import ij.gui.Roi;
-import ij.gui.GenericDialog;
+import java.awt.Rectangle;
 import java.io.File;
 
+import ij.IJ;
+import ij.ImagePlus;
+import ij.ImageStack;
+import ij.WindowManager;
+import ij.gui.GenericDialog;
+import ij.plugin.filter.PlugInFilter;
+import ij.process.ImageProcessor;
 import ij.util.Tools;
-import net.imagej.ImageJ;
 
 /*
  *	Copyright (C), Jan Brocher / BioVoxxel. All rights reserved.
