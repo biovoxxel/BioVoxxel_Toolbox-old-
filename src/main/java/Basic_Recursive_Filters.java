@@ -1,4 +1,3 @@
-package de.biovoxxel;
 
 import java.awt.AWTEvent;
 import java.awt.Checkbox;

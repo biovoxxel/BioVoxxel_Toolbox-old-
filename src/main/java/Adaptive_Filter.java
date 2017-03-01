@@ -1,4 +1,3 @@
-package de.biovoxxel;
 
 import java.util.*;
 import ij.*;
