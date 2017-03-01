@@ -166,9 +166,15 @@ public class Basic_Recursive_Filters implements ExtendedPlugInFilter, DialogList
 
 
 	public int setup(String arg, ImagePlus imp) {
-		this.imp = imp;
-		originalImageTitle = imp.getTitle();
-		return flags;
+		try {
+			this.imp = imp;
+			originalImageTitle = imp.getTitle();
+			return flags;
+		} catch (Exception e) {
+			//e.printStackTrace();
+			IJ.error("No image open");
+			return DONE;
+		}
 	}
 }
 
