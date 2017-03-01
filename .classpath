@@ -18,12 +18,19 @@
 	</classpathentry>
 	<classpathentry kind="src" path="/scijava-common"/>
 	<classpathentry kind="src" path="/imagej"/>
-	<classpathentry kind="src" path="/imagej-common"/>
-	<classpathentry kind="lib" path="C:/Users/BioVoxxel/git/commons-math3-3.5/commons-math3-3.5.jar"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/broch/.m2/repository/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="org.apache.commons"/>
+			<attribute name="maven.artifactId" value="commons-math3"/>
+			<attribute name="maven.version" value="3.6.1"/>
+			<attribute name="maven.scope" value="compile"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
