@@ -73,7 +73,7 @@ public class Pseudo_flat_field_correction implements ExtendedPlugInFilter, Dialo
 	ImageProcessor visualizedBlur;
 	ImagePlus updatedBlurImage = new ImagePlus();
 	ImagePlus existingPreviewImage = null;
-	int flags = DOES_8G|DOES_16|DOES_RGB|KEEP_PREVIEW;
+	int flags = DOES_8G|DOES_16|DOES_RGB|KEEP_PREVIEW|DOES_STACKS;
 	private int nPasses = 1;
 	private int pass; 
 	private double radius = 50.0d;
