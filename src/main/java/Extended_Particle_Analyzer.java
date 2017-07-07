@@ -90,7 +90,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 
 		
 	//Dialog and restriction parameter definition
-	private String Area, Extent, Perimeter, Circularity, Roundness, Solidity, Compactness, AR, FeretAR, EllipsoidAngle, MaxFeret, FeretAngle, COV;
+	private String Area, Extent, Perimeter, Circularity, Roundness, Solidity, Compactness, AR, FeretAR, EllipsoidAngle, MaxFeret, MinFeret, FeretAngle, COV;
 	private String Output, Redirect, Correction;
 	private String unit;
 	private String reset;
@@ -168,6 +168,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		String previousFAR = Prefs.get("advPartAnal.FAR", "0.00-Infinity");
 		String previousAngle = Prefs.get("advPartAnal.angle", "0-180");
 		String previousMaxFeret = Prefs.get("advPartAnal.max.feret", "0-Infinity");
+		String previousMinFeret = Prefs.get("advPartAnal.min.feret", "0-Infinity");
 		String previousFeretAngle = Prefs.get("advPartAnal.feret.angle", "0-180");
 		String previousCOV = Prefs.get("advPartAnal.Stringiation.coefficient", "0.00-1.00");
 		String previousShow = Prefs.get("advPartAnal.show", "Masks");
@@ -199,13 +200,14 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			APAdialog.addStringField("Feret_AR", previousFAR);
 			APAdialog.addStringField("Ellipsoid_angle (degree)", previousAngle);
 			APAdialog.addStringField("Max_Feret", previousMaxFeret);
+			APAdialog.addStringField("Min_Feret", previousMinFeret);
 			APAdialog.addStringField("Feret_Angle (degree)", previousFeretAngle);
 			APAdialog.addStringField("Coefficient of variation", previousCOV);
 			APAdialog.addChoice("Show", new String[] {"Nothing", "Masks", "Outlines", "Count Masks", "Overlay Outlines", "Overlay Masks"}, previousShow);
 			APAdialog.addChoice("Redirect to", imageNames, "None");
 			APAdialog.addChoice("Keep borders (correction)", new String[] {"None", "Top-Left", "Top-Right", "Bottom-Left", "Bottom-Right"}, previousCorrection);
 			APAdialog.addCheckboxGroup(4, 2, checkboxLabels, previousCheckboxGroup);
-			APAdialog.addHelp("http://fiji.sc/BioVoxxel_Toolbox");
+			APAdialog.addHelp("http://imagej.net/BioVoxxel_Toolbox");
 			APAdialog.showDialog();
 			APAdialog.setSmartRecording(true);
 			if(APAdialog.wasCanceled()) {
@@ -265,6 +267,10 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			MaxFeret=APAdialog.getNextString();
 			testValidUserInput(MaxFeret);
 			Prefs.set("advPartAnal.max.feret", MaxFeret);
+			
+			MinFeret=APAdialog.getNextString();
+			testValidUserInput(MinFeret);
+			Prefs.set("advPartAnal.min.feret", MinFeret);
 			
 			FeretAngle=APAdialog.getNextString();
 			testValidUserInput(FeretAngle);
@@ -587,6 +593,28 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 						//IJ.log("MaxFeret");
 					}
 			}
+			
+			if((!MinFeret.equals("0.00-Infinity") || !MinFeret.equals("0.00-infinity")) && continueProcessing) {
+				double MinFeretMin = Double.parseDouble(MinFeret.substring(0, MinFeret.indexOf("-")));
+				double MinFeretMax=999999999.9;
+				String MinFeretInterMax = MinFeret.substring(MinFeret.indexOf("-")+1);
+				if(MinFeretInterMax.equals("Infinity") || MinFeretInterMax.equals("infinity")) {
+					MinFeretMax=999999999.9;
+				} else {
+					MinFeretMax = Double.parseDouble(MinFeret.substring(MinFeret.indexOf("-")+1));
+				}
+				double currentMinFeret = initialResultsTable.getValue("MinFeret", n);
+				if(!unit.equals("pixels") || !unit.equals("pixel")) {
+					if(usePixel) {
+						currentMinFeret = currentMinFeret / pixelWidth;
+					}
+				}
+				if(currentMinFeret<MinFeretMin || currentMinFeret>MinFeretMax) {
+					filledImage.fill8(X[n], Y[n]);
+					continueProcessing=true;
+					//IJ.log("MinFeret");
+				}
+		}
 				
 			if(!FeretAngle.equals("0-180") && continueProcessing) {
 					double FeretAngleMin = Double.parseDouble(FeretAngle.substring(0, FeretAngle.indexOf("-")));
@@ -893,6 +921,8 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		Prefs.set("advPartAnal.angle", EllipsoidAngle);
 		MaxFeret="0-Infinity";
 		Prefs.set("advPartAnal.max.feret", MaxFeret);
+		MinFeret="0-Infinity";
+		Prefs.set("advPartAnal.min.feret", MinFeret);
 		FeretAngle="0-180";
 		Prefs.set("advPartAnal.feret.angle", FeretAngle);
 		COV="0.00-1.00";
