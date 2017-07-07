@@ -89,6 +89,11 @@ public class Pseudo_flat_field_correction implements ExtendedPlugInFilter, Dialo
 			IJ.error("Image type not supported", "does not work with composite images");
 			return DONE;
 		}
+		
+		if(imp.isLocked()) {
+			imp.unlock();
+		}
+		
 		this.imp = imp;
 		return flags;
 	}
