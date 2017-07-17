@@ -46,10 +46,10 @@ import ij.plugin.filter.RankFilters;
 /**
  * @author BioVoxxel
  * 
- * This plugin runs the standard image filters Gaussian Blur..., Mean and Median Filter <br/>
- * recursively over the image using the specified 0 &lt; radius &lt= 3 for a maximum number of <br/>
+ * This plugin runs the standard image filters Gaussian Blur..., Mean and Median Filter
+ * recursively over the image using the specified 0 &lt; radius &lt;= 3 for a maximum number of
  * iterations which can be specified in the respective field. Maximal iteration number is 500.
- * <p> Thus, the filter leads to a better edge preservation when using the median filter and generally <br/>
+ * Thus, the filter leads to a better edge preservation when using the median filter and generally
  * allows a better homogenisation of the image with a lower amount of feature degradation.
  * 
  */

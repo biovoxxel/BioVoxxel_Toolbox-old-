@@ -111,7 +111,7 @@ public class Binary_Feature_Extractor implements PlugInFilter {
 
 		RoiManager objectsRM = new RoiManager(true);
 		ResultsTable objectsRT = new ResultsTable();
-		ParticleAnalyzer analyzeObjects = new ParticleAnalyzer(analyzerOptions, measurementFlags, objectsRT, 0.0, 999999999.9);
+		ParticleAnalyzer analyzeObjects = new ParticleAnalyzer(analyzerOptions, measurementFlags, objectsRT, 0.0, Double.POSITIVE_INFINITY);
 		analyzeObjects.setRoiManager(objectsRM);
 		
 		analyzeObjects.analyze(objectsImp);
@@ -148,7 +148,7 @@ public class Binary_Feature_Extractor implements PlugInFilter {
 		RoiManager selectorRM = new RoiManager(true);
 		ResultsTable selectorRT = new ResultsTable();
 		ParticleAnalyzer.setRoiManager(selectorRM);
-		ParticleAnalyzer analyzeSelectors = new ParticleAnalyzer(analyzerOptions, measurementFlags, selectorRT, 0.0, 999999999.9);
+		ParticleAnalyzer analyzeSelectors = new ParticleAnalyzer(analyzerOptions, measurementFlags, selectorRT, 0.0, Double.POSITIVE_INFINITY);
 		analyzeSelectors.analyze(selectorsImp);
 		selectorRM.runCommand("Show None");
 		int selectorNumber = selectorRT.getCounter();
@@ -217,7 +217,7 @@ public class Binary_Feature_Extractor implements PlugInFilter {
 		
 		if(showAnalysis) {
 			ResultsTable extractedRT = new ResultsTable();
-			ParticleAnalyzer analyzeExtracted = new ParticleAnalyzer(ParticleAnalyzer.CLEAR_WORKSHEET|ParticleAnalyzer.RECORD_STARTS, measurementFlags, extractedRT, 0.0, 999999999.9);
+			ParticleAnalyzer analyzeExtracted = new ParticleAnalyzer(ParticleAnalyzer.CLEAR_WORKSHEET|ParticleAnalyzer.RECORD_STARTS, measurementFlags, extractedRT, 0.0, Double.POSITIVE_INFINITY);
 			analyzeExtracted.analyze(outputImp);
 			objectsRT.show("Objects");
 			selectorRT.show("Selectors");

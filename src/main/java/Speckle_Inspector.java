@@ -124,14 +124,14 @@ public class Speckle_Inspector implements PlugInFilter {
 			gd.addChoice("big objects", imageNames, imageNames[0]);
 			gd.addChoice("small objects", imageNames, imageNames[0]);
 			gd.addNumericField("min_Object size: ", 0, 0, 9, "pixel");
-			gd.addNumericField("max_Object size: ", 999999999, 0, 9, "pixel");
+			gd.addNumericField("max_Object size: ", Double.POSITIVE_INFINITY, 0, 9, "pixel");
 			gd.addNumericField("min_Object_circularity: ", 0.00, 2, 9, "");
 			gd.addNumericField("max_Object_circularity: ", 1.00, 2, 9, "");
 			
 			gd.addNumericField("min_Speckle_number: ", 0, 0, 9, "");
-			gd.addNumericField("max_Speckle_number: ", 999999999, 0, 9, "");
+			gd.addNumericField("max_Speckle_number: ", Double.POSITIVE_INFINITY, 0, 9, "");
 			gd.addNumericField("min_Speckle_size: ", 0, 0, 9, "pixel");
-			gd.addNumericField("max_Speckle_size: ", 999999999, 0, 9, "pixel");
+			gd.addNumericField("max_Speckle_size: ", Double.POSITIVE_INFINITY, 0, 9, "pixel");
 			
 			gd.addCheckbox("exclude objects on edges", true);
 			gd.addCheckbox("roi manager visible", false);

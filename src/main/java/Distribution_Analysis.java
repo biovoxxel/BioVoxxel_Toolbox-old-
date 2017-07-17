@@ -68,7 +68,7 @@ public class Distribution_Analysis implements PlugInFilter {
 
 		GenericDialog gd = new GenericDialog("Distribution Analysis " + version);
 			gd.addNumericField("min_size", 0.0, 1);
-			gd.addStringField("max_size", "Infinity");
+			gd.addNumericField("max_size", Double.POSITIVE_INFINITY, 0);
 			gd.addNumericField("min_circularity", 0.00, 2);
 			gd.addNumericField("max_circularity", 1.00, 2);
 			gd.addCheckbox("include holes", false);
@@ -79,7 +79,7 @@ public class Distribution_Analysis implements PlugInFilter {
 			gd.showDialog();
 			
 			minSize = gd.getNextNumber();
-			maxSizeString = gd.getNextString();
+			maxSize = gd.getNextNumber();
 			minCirc = gd.getNextNumber();
 			maxCirc = gd.getNextNumber();
 			includeHoles = gd.getNextBoolean();
@@ -88,12 +88,6 @@ public class Distribution_Analysis implements PlugInFilter {
 			statisticalMethod = gd.getNextRadioButton();
 			chosenCI = gd.getNextRadioButton();
 			
-		
-		if(maxSizeString=="Infinity" || maxSizeString=="infinity") {
-			maxSize = 999999999.9;
-		} else {
-			maxSize = Double.parseDouble(maxSizeString);
-		}
 		
 		if(Double.isNaN(maxSize) || gd.invalidNumber() || minCirc<0 || maxCirc>1.0) {
 			IJ.error("invalid number");

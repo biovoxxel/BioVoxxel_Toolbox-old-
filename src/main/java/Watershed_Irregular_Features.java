@@ -66,7 +66,7 @@ public class Watershed_Irregular_Features implements ExtendedPlugInFilter, Dialo
 	private int nPasses = 1;
 	private int pass;
 	private double AreaMin = 0.0;
-	private double AreaMax = 999999999.9;
+	private double AreaMax = Double.POSITIVE_INFINITY;
 	private int options = ParticleAnalyzer.RECORD_STARTS;
 	private int measurements = Measurements.CENTROID;
 	private int flags = DOES_8G|KEEP_PREVIEW|SNAPSHOT|DOES_STACKS;

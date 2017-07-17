@@ -100,7 +100,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 	private int measurementFlags = Measurements.AREA|Measurements.MEAN|Measurements.STD_DEV|Measurements.MODE|Measurements.MIN_MAX|Measurements.CENTROID|Measurements.CENTER_OF_MASS|Measurements.PERIMETER|Measurements.RECT|Measurements.ELLIPSE|Measurements.SHAPE_DESCRIPTORS|Measurements.FERET|Measurements.INTEGRATED_DENSITY|Measurements.MEDIAN|Measurements.SKEWNESS|Measurements.KURTOSIS|Measurements.AREA_FRACTION|Measurements.STACK_POSITION|Measurements.LIMIT|Measurements.LABELS;
 	private int outputOptions = ParticleAnalyzer.RECORD_STARTS;
 	private double AreaMin = 0.0;
-	private double AreaMax = 999999999.9;
+	private double AreaMax = Double.POSITIVE_INFINITY;
 	private double CircularityMin = 0.0;
 	private double CircularityMax = 1.0;
 		
@@ -354,11 +354,11 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 
 	public void particleAnalysis(ImageProcessor ip, ImagePlus imp2, String originalImageTitle) {
 
-		if(!Area.equals("0-Infinity") || !Area.equals("0-infinity")) {
+		if(!Area.equalsIgnoreCase("0-Infinity")) {
 			AreaMin = Double.parseDouble(Area.substring(0, Area.indexOf("-")));
 			String AreaInterMax = Area.substring(Area.indexOf("-")+1);
-			if(AreaInterMax.equals("Infinity") || AreaInterMax.equals("infinity")) { 
-				AreaMax = 999999999.9;
+			if(AreaInterMax.equalsIgnoreCase("Infinity")) { 
+				AreaMax = Double.POSITIVE_INFINITY;
 			} else {
 				AreaMax = Double.parseDouble(Area.substring(Area.indexOf("-")+1));
 			}
@@ -477,12 +477,12 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			}
 			
 			
-			if((!Perimeter.equals("0-Infinity") || !Perimeter.equals("0-infinity")) && continueProcessing) {
+			if((!Perimeter.equalsIgnoreCase("0-infinity")) && continueProcessing) {
 					double PerimeterMin = Double.parseDouble(Perimeter.substring(0, Perimeter.indexOf("-")));
-					double PerimeterMax = 999999999.9;
+					double PerimeterMax = Double.POSITIVE_INFINITY;
 					String PerimeterInterMax = Perimeter.substring(Perimeter.indexOf("-")+1);
-					if(PerimeterInterMax.equals("Infinity") || PerimeterInterMax.equals("infinity")) { 
-						PerimeterMax = 999999999.9;
+					if(PerimeterInterMax.equalsIgnoreCase("infinity")) { 
+						PerimeterMax = Double.POSITIVE_INFINITY;
 					} else {
 						PerimeterMax = Double.parseDouble(Perimeter.substring(Perimeter.indexOf("-")+1));
 					}
@@ -530,11 +530,11 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 					}
 			}
 				
-			if((!AR.equals("0.00-Infinity") || !AR.equals("0.00-infinity")) && continueProcessing) {
+			if((!AR.equalsIgnoreCase("0.00-infinity")) && continueProcessing) {
 					double ARMin = Double.parseDouble(AR.substring(0, AR.indexOf("-")));
 					double ARMax=999999999;
 					String ARInterMax = AR.substring(AR.indexOf("-")+1);
-					if(ARInterMax.equals("Infinity") || ARInterMax.equals("infinity")) {
+					if(ARInterMax.equalsIgnoreCase("infinity")) {
 						ARMax=999999999;
 					} else {
 						ARMax = Double.parseDouble(AR.substring(AR.indexOf("-")+1));
@@ -546,12 +546,12 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 					}
 			}
 	
-			if((!FeretAR.equals("0.00-Infinity") || !FeretAR.equals("0.00-infinity")) && continueProcessing) {
+			if((!FeretAR.equalsIgnoreCase("0.00-infinity")) && continueProcessing) {
 					double FARMin = Double.parseDouble(FeretAR.substring(0, FeretAR.indexOf("-")));
-					double FARMax = 999999999.9;
+					double FARMax = Double.POSITIVE_INFINITY;
 					String FARInterMax = FeretAR.substring(FeretAR.indexOf("-")+1);
-					if(FARInterMax=="Infinity" || FARInterMax=="infinity") {
-						FARMax=999999999.9;
+					if(FARInterMax.equalsIgnoreCase("infinity")) {
+						FARMax=Double.POSITIVE_INFINITY;
 					} else {
 						FARMax = Double.parseDouble(FeretAR.substring(FeretAR.indexOf("-")+1));
 					}
@@ -572,12 +572,12 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 					}
 			}
 			
-			if((!MaxFeret.equals("0.00-Infinity") || !MaxFeret.equals("0.00-infinity")) && continueProcessing) {
+			if((!MaxFeret.equalsIgnoreCase("0.00-infinity")) && continueProcessing) {
 					double MaxFeretMin = Double.parseDouble(MaxFeret.substring(0, MaxFeret.indexOf("-")));
-					double MaxFeretMax=999999999.9;
+					double MaxFeretMax=Double.POSITIVE_INFINITY;
 					String MaxFeretInterMax = MaxFeret.substring(MaxFeret.indexOf("-")+1);
-					if(MaxFeretInterMax.equals("Infinity") || MaxFeretInterMax.equals("infinity")) {
-						MaxFeretMax=999999999.9;
+					if(MaxFeretInterMax.equalsIgnoreCase("infinity")) {
+						MaxFeretMax=Double.POSITIVE_INFINITY;
 					} else {
 						MaxFeretMax = Double.parseDouble(MaxFeret.substring(MaxFeret.indexOf("-")+1));
 					}
@@ -594,12 +594,21 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 					}
 			}
 			
+<<<<<<< HEAD
 			if((!MinFeret.equals("0.00-Infinity") || !MinFeret.equals("0.00-infinity")) && continueProcessing) {
 				double MinFeretMin = Double.parseDouble(MinFeret.substring(0, MinFeret.indexOf("-")));
 				double MinFeretMax=999999999.9;
 				String MinFeretInterMax = MinFeret.substring(MinFeret.indexOf("-")+1);
 				if(MinFeretInterMax.equals("Infinity") || MinFeretInterMax.equals("infinity")) {
 					MinFeretMax=999999999.9;
+=======
+			if((!MinFeret.equalsIgnoreCase("0.00-infinity")) && continueProcessing) {
+				double MinFeretMin = Double.parseDouble(MinFeret.substring(0, MinFeret.indexOf("-")));
+				double MinFeretMax=Double.POSITIVE_INFINITY;
+				String MinFeretInterMax = MinFeret.substring(MinFeret.indexOf("-")+1);
+				if(MinFeretInterMax.equalsIgnoreCase("infinity")) {
+					MinFeretMax=Double.POSITIVE_INFINITY;
+>>>>>>> branch 'master' of https://github.com/biovoxxel/BioVoxxel_Toolbox.git
 				} else {
 					MinFeretMax = Double.parseDouble(MinFeret.substring(MinFeret.indexOf("-")+1));
 				}
@@ -667,30 +676,31 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			outputPA.analyze(tempImg);
 			outputImg = outputPA.getOutputImage();
 			currentResultCount = resultsTable.getCounter();
-			int currentColumnCount = resultsTable.getLastColumn();
+			//int currentColumnCount = resultsTable.getLastColumn();
+			String[] tableHeadings = resultsTable.getHeadings();
 
 			existingResultsCounter = outputResultsTable.getCounter();
 
 			for(int row=0; row<currentResultCount; row++) {
-				for(int column=0;column<=currentColumnCount; column++) {
+				for(int column=0;column<=tableHeadings.length; column++) {
 					if(column==0) {
 						outputResultsTable.incrementCounter();
-						outputResultsTable.addValue(column, resultsTable.getValueAsDouble(column, row));
+						outputResultsTable.addValue(tableHeadings[column], resultsTable.getValue(tableHeadings[column], row));
 						outputResultsTable.addLabel(originalImageTitle);
 						
-					} else if(column!=0 && (column<26 || column>28)) {
+					} else {
 						try {
-							outputResultsTable.getStringValue(column, row);
+							outputResultsTable.getStringValue(tableHeadings[column], row);
 						}
 						catch(Exception e) {
-							outputResultsTable.setValue(column, row, 0);
+							outputResultsTable.setValue(tableHeadings[column], row, 0);
 						}
 						
 						try {
-							outputResultsTable.setValue(column, (row+existingResultsCounter), resultsTable.getValueAsDouble(column, row));
+							outputResultsTable.setValue(tableHeadings[column], (row+existingResultsCounter), resultsTable.getValue(tableHeadings[column], row));
 						} catch (Exception e) {
 							//e.printStackTrace();
-							outputResultsTable.setValue(column, (row+existingResultsCounter), 0);
+							outputResultsTable.setValue(tableHeadings[column], (row+existingResultsCounter), 0);
 						}
 					}
 					
@@ -966,7 +976,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			double lowerValue = Double.parseDouble(lowerInputParameter);	
 		} 
 		catch(NumberFormatException nfe) {
-			if(lowerInputParameter!="Infinity" || lowerInputParameter!="infinity") {
+			if(lowerInputParameter.equalsIgnoreCase("infinity")) {
 				resetDialogEntries();
 				IJ.error("Invalid parameter entry");
 				return;
@@ -980,7 +990,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			double higherValue = Double.parseDouble(higherInputParameter);	
 		} 
 		catch(NumberFormatException nfe) {
-			if(higherInputParameter!="Infinity" || higherInputParameter!="infinity") {
+			if(higherInputParameter.equalsIgnoreCase("infinity")) {
 				resetDialogEntries();
 				IJ.error("Invalid parameter entry");
 				return;
