@@ -130,7 +130,7 @@ public class Cluster_Indicator implements PlugInFilter {
 		int paOptions = ParticleAnalyzer.CLEAR_WORKSHEET|ParticleAnalyzer.RECORD_STARTS;
 		int paMeasurements = Measurements.CENTROID;
 		ResultsTable rt = new ResultsTable();
-		ParticleAnalyzer pa = new ParticleAnalyzer(paOptions, paMeasurements, rt, 0.0, 999999999.9);
+		ParticleAnalyzer pa = new ParticleAnalyzer(paOptions, paMeasurements, rt, 0.0, Double.POSITIVE_INFINITY);
 		
 		pa.analyze(imp, ip);
 		nResults = rt.getCounter();
@@ -395,7 +395,7 @@ public class Cluster_Indicator implements PlugInFilter {
 			ImageProcessor fusedRoisIP = fusedRoi.getMask();
 			ImagePlus fusedRoisImp = new ImagePlus("fusedRoiAnalysis", fusedRoisIP);
 			ResultsTable fusedRoiRT = new ResultsTable();
-			ParticleAnalyzer fusedRoiAnalysis = new ParticleAnalyzer(ParticleAnalyzer.CLEAR_WORKSHEET, Measurements.AREA, fusedRoiRT, 0.0, 999999999.9);
+			ParticleAnalyzer fusedRoiAnalysis = new ParticleAnalyzer(ParticleAnalyzer.CLEAR_WORKSHEET, Measurements.AREA, fusedRoiRT, 0.0, Double.POSITIVE_INFINITY);
 			fusedRoiAnalysis.analyze(fusedRoisImp);
 			remainingClusters = fusedRoiRT.getCounter();
 
