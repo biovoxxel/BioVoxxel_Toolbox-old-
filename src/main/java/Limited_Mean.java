@@ -135,7 +135,9 @@ public class Limited_Mean implements PlugInFilter {
 		if((modal!=0 || modal!=255) && force==true) {
 			//ij.IJ.log("forced to small partition");
 		}
-				
+		
+		
+		
 		if((modal<=mean && force==false) || (modal>mean && force==true)) {
 			median = getMedian(hist);
 
@@ -156,6 +158,8 @@ public class Limited_Mean implements PlugInFilter {
 			//ij.IJ.log("old median (inverted): "+median);
 			//ij.IJ.log("old mean (inverted)"+mean);
 		}
+		
+		
 
 		if(modal==0.0 && median==0.0 && differential==true) {
 			hist[0] = 0;
