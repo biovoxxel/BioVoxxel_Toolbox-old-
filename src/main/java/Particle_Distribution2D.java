@@ -94,7 +94,7 @@ public class Particle_Distribution2D implements PlugInFilter {
 			
 		
 		if(maxSizeString=="Infinity" || maxSizeString=="infinity") {
-			maxSize = 999999999.9;
+			maxSize = Double.POSITIVE_INFINITY;
 		} else {
 			maxSize = Double.parseDouble(maxSizeString);
 		}
