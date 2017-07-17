@@ -594,21 +594,13 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 					}
 			}
 			
-<<<<<<< HEAD
-			if((!MinFeret.equals("0.00-Infinity") || !MinFeret.equals("0.00-infinity")) && continueProcessing) {
-				double MinFeretMin = Double.parseDouble(MinFeret.substring(0, MinFeret.indexOf("-")));
-				double MinFeretMax=999999999.9;
-				String MinFeretInterMax = MinFeret.substring(MinFeret.indexOf("-")+1);
-				if(MinFeretInterMax.equals("Infinity") || MinFeretInterMax.equals("infinity")) {
-					MinFeretMax=999999999.9;
-=======
 			if((!MinFeret.equalsIgnoreCase("0.00-infinity")) && continueProcessing) {
 				double MinFeretMin = Double.parseDouble(MinFeret.substring(0, MinFeret.indexOf("-")));
 				double MinFeretMax=Double.POSITIVE_INFINITY;
 				String MinFeretInterMax = MinFeret.substring(MinFeret.indexOf("-")+1);
 				if(MinFeretInterMax.equalsIgnoreCase("infinity")) {
 					MinFeretMax=Double.POSITIVE_INFINITY;
->>>>>>> branch 'master' of https://github.com/biovoxxel/BioVoxxel_Toolbox.git
+
 				} else {
 					MinFeretMax = Double.parseDouble(MinFeret.substring(MinFeret.indexOf("-")+1));
 				}
