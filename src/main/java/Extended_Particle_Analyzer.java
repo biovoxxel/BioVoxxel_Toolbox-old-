@@ -674,10 +674,10 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			existingResultsCounter = outputResultsTable.getCounter();
 
 			for(int row=0; row<currentResultCount; row++) {
-				for(int column=0;column<=tableHeadings.length; column++) {
+				for(int column=0;column<tableHeadings.length; column++) {
 					if(column==0) {
 						outputResultsTable.incrementCounter();
-						outputResultsTable.addValue(tableHeadings[column], resultsTable.getValue(tableHeadings[column], row));
+						//outputResultsTable.addValue(tableHeadings[column], resultsTable.getStringValue(tableHeadings[column], row));
 						outputResultsTable.addLabel(originalImageTitle);
 						
 					} else {
@@ -702,9 +702,12 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			ParticleAnalyzer outputPA = new ParticleAnalyzer(outputOptions, measurementFlags, outputResultsTable, AreaMin, AreaMax);
 			outputPA.analyze(tempImg);
 			outputImg = outputPA.getOutputImage();
+			
+			
 			for(int l=0; l<outputResultsTable.getCounter(); l++) {
 				outputResultsTable.setLabel(originalImageTitle, l);
 			}
+			
 		}
 
 		if(Output.equals("Nothing")) {
