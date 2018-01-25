@@ -158,6 +158,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		
 		//define variables
 		String previousArea = Prefs.get("advPartAnal.area", "0-Infinity");
+		boolean previousUnit = Prefs.get("advPartAnal.unit", false);
 		String previousExtent = Prefs.get("advPartAnal.Extent", "0.00-1.00");
 		String previousPerim = Prefs.get("advPartAnal.perimeter", "0-Infinity");
 		String previousCirc = Prefs.get("advPartAnal.circularity", "0.00-1.00");
@@ -186,10 +187,8 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		//Setup including shape descriptors
 		GenericDialog APAdialog = new GenericDialog("Extended Particle Analyzer");
 		
+			APAdialog.addCheckbox("Pixel units", previousUnit);
 			APAdialog.addStringField("Area ("+unit+"^2)", previousArea);
-			if(!unit.equals("pixels") && !unit.equals("pixel")) {
-				APAdialog.addCheckbox("Pixel units", true);
-			}
 			APAdialog.addStringField("Extent", previousExtent);
 			APAdialog.addStringField("Perimeter (pixel)", previousPerim);
 			APAdialog.addStringField("Circularity", previousCirc);
@@ -213,14 +212,13 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			if(APAdialog.wasCanceled()) {
 				return;
 			}
+			
+			usePixel=APAdialog.getNextBoolean();
+			Prefs.set("advPartAnal.unit", usePixel);
+			
 			Area=APAdialog.getNextString();
 			testValidUserInput(Area);
 			Prefs.set("advPartAnal.area", Area);
-			
-			if(!unit.equals("pixels") && !unit.equals("pixel")) {
-				usePixel=APAdialog.getNextBoolean();
-				Prefs.set("advPartAnal.unit", usePixel);
-			}
 			
 			Extent=APAdialog.getNextString();
 			testValidUserInput(Extent);
@@ -364,12 +362,11 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			}
 		} 
 
-		if(!unit.equals("pixels") || !unit.equals("pixel")) {
-			if(usePixel) {
-				AreaMin = AreaMin / squaredPixel;
-				AreaMax = AreaMax / squaredPixel;
-			}
+		if(usePixel) {
+			AreaMin = AreaMin / squaredPixel;
+			AreaMax = AreaMax / squaredPixel;
 		}
+		
 
 		if(!Circularity.equals("0.00-1.00")) {
 			CircularityMin = Double.parseDouble(Circularity.substring(0, Circularity.indexOf("-")));
@@ -487,11 +484,11 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 						PerimeterMax = Double.parseDouble(Perimeter.substring(Perimeter.indexOf("-")+1));
 					}
 					double currentPerimeter = initialResultsTable.getValue("Perim.", n);
-					if(!unit.equals("pixels") || !unit.equals("pixel")) {
-						if(usePixel) {
-							currentPerimeter = currentPerimeter / pixelWidth;
-						}
+					
+					if(usePixel) {
+						currentPerimeter = currentPerimeter / pixelWidth;
 					}
+					
 					if(currentPerimeter<PerimeterMin || currentPerimeter>PerimeterMax) {
 						filledImage.fill8(X[n], Y[n]);
 						continueProcessing=true;
@@ -582,11 +579,10 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 						MaxFeretMax = Double.parseDouble(MaxFeret.substring(MaxFeret.indexOf("-")+1));
 					}
 					double currentMaxFeret = initialResultsTable.getValue("Feret", n);
-					if(!unit.equals("pixels") || !unit.equals("pixel")) {
-						if(usePixel) {
-							currentMaxFeret = currentMaxFeret / pixelWidth;
-						}
+					if(usePixel) {
+						currentMaxFeret = currentMaxFeret / pixelWidth;
 					}
+					
 					if(currentMaxFeret<MaxFeretMin || currentMaxFeret>MaxFeretMax) {
 						filledImage.fill8(X[n], Y[n]);
 						continueProcessing=true;
@@ -605,11 +601,11 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 					MinFeretMax = Double.parseDouble(MinFeret.substring(MinFeret.indexOf("-")+1));
 				}
 				double currentMinFeret = initialResultsTable.getValue("MinFeret", n);
-				if(!unit.equals("pixels") || !unit.equals("pixel")) {
-					if(usePixel) {
-						currentMinFeret = currentMinFeret / pixelWidth;
-					}
+				
+				if(usePixel) {
+					currentMinFeret = currentMinFeret / pixelWidth;
 				}
+				
 				if(currentMinFeret<MinFeretMin || currentMinFeret>MinFeretMax) {
 					filledImage.fill8(X[n], Y[n]);
 					continueProcessing=true;
