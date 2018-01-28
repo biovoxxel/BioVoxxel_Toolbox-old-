@@ -362,7 +362,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			}
 		} 
 
-		if(usePixel) {
+		if(!usePixel) {
 			AreaMin = AreaMin / squaredPixel;
 			AreaMax = AreaMax / squaredPixel;
 		}
@@ -485,7 +485,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 					}
 					double currentPerimeter = initialResultsTable.getValue("Perim.", n);
 					
-					if(usePixel) {
+					if(!usePixel) {
 						currentPerimeter = currentPerimeter / pixelWidth;
 					}
 					
@@ -579,7 +579,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 						MaxFeretMax = Double.parseDouble(MaxFeret.substring(MaxFeret.indexOf("-")+1));
 					}
 					double currentMaxFeret = initialResultsTable.getValue("Feret", n);
-					if(usePixel) {
+					if(!usePixel) {
 						currentMaxFeret = currentMaxFeret / pixelWidth;
 					}
 					
@@ -602,7 +602,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 				}
 				double currentMinFeret = initialResultsTable.getValue("MinFeret", n);
 				
-				if(usePixel) {
+				if(!usePixel) {
 					currentMinFeret = currentMinFeret / pixelWidth;
 				}
 				
@@ -1016,6 +1016,14 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 					IJ.error("Invalid parameter entry");
 					return;
 				}
+	}
+	
+	
+	public void convertTableToCalibratedResults(ResultsTable rt) {
+		String[] tableHeadings = rt.getHeadings();
+		for(int r=0; r<rt.getCounter(); r++) {
+			//TODO: exchange all pixel based values for calibrated ones
+		}
 	}
 	
 	//------------------------------------------------------------------------------------------------------------------------

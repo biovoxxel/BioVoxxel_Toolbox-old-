@@ -57,13 +57,32 @@
 			<artifactId>commons-math3</artifactId>
 			</dependency>
 		<dependency>
+			<groupId>de.biomedical-imaging.ij</groupId>
+			<artifactId>ij_blob</artifactId>
+			<version>1.4.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>scijava-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imagej</groupId>
+			<artifactId>imagej-ops</artifactId>
+			<version>0.39.0</version>
+		</dependency>
+		<dependency>
 			<groupId>net.imagej</groupId>
 			<artifactId>ij</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>de.biomedical-imaging.ij</groupId>
-			<artifactId>ij_blob</artifactId>
-			<version>1.4.9</version>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.imglib2</groupId>
+			<artifactId>imglib2-ij</artifactId>
+			<version>2.0.0-beta-39</version>
 		</dependency>
 	</dependencies>
 	
