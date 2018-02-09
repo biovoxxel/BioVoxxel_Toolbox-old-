@@ -107,6 +107,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 	//measurement variables
 	private int[] X, Y;
 	private int[] keptResults;
+	private Calibration calibImg;
 
 	
 	//------------------------------------------------------------------------------------------------------------------------	
@@ -146,7 +147,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		}
 
 		//reading in calibration information
-		Calibration calibImg = imp1.getCalibration();
+		calibImg = imp1.getCalibration();
 		
 		unit = calibImg.getUnit();
 		pixelWidth = calibImg.pixelWidth;
@@ -405,6 +406,12 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		}
 		
 		ImagePlus tempImg = initialPA.getOutputImage();
+		if(!Redirect.equals("None")) {
+			tempImg.setCalibration(WindowManager.getImage(Redirect).getCalibration());
+		} else {
+			tempImg.setCalibration(calibImg);			
+		}
+		//tempImg.show();
 		ImageProcessor tempIP = tempImg.getProcessor();
 		if(tempIP.isInvertedLut()) {
 			tempIP.invertLut();
