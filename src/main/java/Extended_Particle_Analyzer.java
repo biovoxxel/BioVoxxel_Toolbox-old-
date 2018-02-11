@@ -94,7 +94,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 	private String Output, Redirect, Correction;
 	private String unit;
 	private String reset;
-	private boolean usePixel, Reset, DisplayResults, ClearResults, Summarize, AddToManager, ExcludeEdges, IncludeHoles; //checkbox variable
+	private boolean usePixel, usePixelForOutput, Reset, DisplayResults, ClearResults, Summarize, AddToManager, ExcludeEdges, IncludeHoles; //checkbox variable
 	private int displayResults, summarize, addtoManager, excludeEdges, includeHoles; //checkbox result variables
 	private int currentPAOptions = ParticleAnalyzer.CLEAR_WORKSHEET|ParticleAnalyzer.RECORD_STARTS|ParticleAnalyzer.SHOW_MASKS;
 	private int measurementFlags = Measurements.AREA|Measurements.MEAN|Measurements.STD_DEV|Measurements.MODE|Measurements.MIN_MAX|Measurements.CENTROID|Measurements.CENTER_OF_MASS|Measurements.PERIMETER|Measurements.RECT|Measurements.ELLIPSE|Measurements.SHAPE_DESCRIPTORS|Measurements.FERET|Measurements.INTEGRATED_DENSITY|Measurements.MEDIAN|Measurements.SKEWNESS|Measurements.KURTOSIS|Measurements.AREA_FRACTION|Measurements.STACK_POSITION|Measurements.LIMIT|Measurements.LABELS;
@@ -158,8 +158,10 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		String[] imageNames = getImageNames(imp1);
 		
 		//define variables
-		String previousArea = Prefs.get("advPartAnal.area", "0-Infinity");
 		boolean previousUnit = Prefs.get("advPartAnal.unit", false);
+		boolean previousOutputUnit = Prefs.get("advPartAnal.outputUnit", false);
+
+		String previousArea = Prefs.get("advPartAnal.area", "0-Infinity");
 		String previousExtent = Prefs.get("advPartAnal.Extent", "0.00-1.00");
 		String previousPerim = Prefs.get("advPartAnal.perimeter", "0-Infinity");
 		String previousCirc = Prefs.get("advPartAnal.circularity", "0.00-1.00");
@@ -188,7 +190,10 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		//Setup including shape descriptors
 		GenericDialog APAdialog = new GenericDialog("Extended Particle Analyzer");
 		
-			APAdialog.addCheckbox("Pixel units", previousUnit);
+			if(!unit.equalsIgnoreCase("pixel")||!unit.equalsIgnoreCase("pixels")) {
+				APAdialog.addCheckbox("Pixel units", previousUnit);
+				APAdialog.addCheckbox("Output_in_pixels", previousOutputUnit);				
+			}
 			APAdialog.addStringField("Area ("+unit+"^2)", previousArea);
 			APAdialog.addStringField("Extent", previousExtent);
 			APAdialog.addStringField("Perimeter (pixel)", previousPerim);
@@ -214,8 +219,13 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 				return;
 			}
 			
-			usePixel=APAdialog.getNextBoolean();
-			Prefs.set("advPartAnal.unit", usePixel);
+			if(!unit.equalsIgnoreCase("pixel")||!unit.equalsIgnoreCase("pixels")) {
+				usePixel=APAdialog.getNextBoolean();
+				Prefs.set("advPartAnal.unit", usePixel);
+				
+				usePixelForOutput=APAdialog.getNextBoolean();
+				Prefs.set("advPartAnal.outputUnit", usePixelForOutput);
+			}
 			
 			Area=APAdialog.getNextString();
 			testValidUserInput(Area);
@@ -406,10 +416,15 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		}
 		
 		ImagePlus tempImg = initialPA.getOutputImage();
-		if(!Redirect.equals("None")) {
+		if(!Redirect.equals("None") && !usePixelForOutput) {
 			tempImg.setCalibration(WindowManager.getImage(Redirect).getCalibration());
-		} else {
+		} else if(Redirect.equals("None") && !usePixelForOutput) {
 			tempImg.setCalibration(calibImg);			
+		} else if(usePixelForOutput) {
+			Calibration newCal = new Calibration();
+			newCal.setUnit("pixels");
+			
+			tempImg.setCalibration(null);
 		}
 		//tempImg.show();
 		ImageProcessor tempIP = tempImg.getProcessor();
