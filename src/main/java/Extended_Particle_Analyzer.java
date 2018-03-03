@@ -196,7 +196,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			}
 			APAdialog.addStringField("Area ("+unit+"^2)", previousArea);
 			APAdialog.addStringField("Extent", previousExtent);
-			APAdialog.addStringField("Perimeter (pixel)", previousPerim);
+			APAdialog.addStringField("Perimeter", previousPerim);
 			APAdialog.addStringField("Circularity", previousCirc);
 			APAdialog.addStringField("Roundness (IJ)", previousRound);
 			APAdialog.addStringField("Solidity", previousSolidity);
@@ -508,7 +508,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 					double currentPerimeter = initialResultsTable.getValue("Perim.", n);
 					
 					if(!usePixel) {
-						currentPerimeter = currentPerimeter / pixelWidth;
+						currentPerimeter = currentPerimeter * pixelWidth;
 					}
 					
 					if(currentPerimeter<PerimeterMin || currentPerimeter>PerimeterMax) {
@@ -602,7 +602,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 					}
 					double currentMaxFeret = initialResultsTable.getValue("Feret", n);
 					if(!usePixel) {
-						currentMaxFeret = currentMaxFeret / pixelWidth;
+						currentMaxFeret = currentMaxFeret * pixelWidth;
 					}
 					
 					if(currentMaxFeret<MaxFeretMin || currentMaxFeret>MaxFeretMax) {
@@ -625,7 +625,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 				double currentMinFeret = initialResultsTable.getValue("MinFeret", n);
 				
 				if(!usePixel) {
-					currentMinFeret = currentMinFeret / pixelWidth;
+					currentMinFeret = currentMinFeret * pixelWidth;
 				}
 				
 				if(currentMinFeret<MinFeretMin || currentMinFeret>MinFeretMax) {
