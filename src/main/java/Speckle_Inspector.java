@@ -90,6 +90,7 @@ public class Speckle_Inspector implements PlugInFilter {
 	//define input variables
 	private String bigObjects;
 	private String smallObjects;
+	private String redirectToImage;
 	private double minObjectSize;
 	private double maxObjectSize;
 	private double minObjectCirc;
@@ -122,7 +123,8 @@ public class Speckle_Inspector implements PlugInFilter {
 				
 		GenericDialog gd = new GenericDialog("Speckle Inspector");
 			gd.addChoice("big objects", imageNames, imageNames[0]);
-			gd.addChoice("small objects", imageNames, imageNames[0]);
+			gd.addChoice("small speckles", imageNames, imageNames[0]);
+			gd.addChoice("redirect measurements to", imageNames, imageNames[0]);
 			gd.addNumericField("min_Object size: ", 0, 0, 9, "pixel");
 			gd.addNumericField("max_Object size: ", Double.POSITIVE_INFINITY, 0, 9, "pixel");
 			gd.addNumericField("min_Object_circularity: ", 0.00, 2, 9, "");
@@ -148,9 +150,9 @@ public class Speckle_Inspector implements PlugInFilter {
 			if(gd.wasCanceled()) {
 				return;
 			}
-			
 			bigObjects = gd.getNextChoice();
 			smallObjects = gd.getNextChoice();
+			redirectToImage = gd.getNextChoice();
 			minObjectSize = gd.getNextNumber();
 			maxObjectSize = gd.getNextNumber();
 			minObjectCirc = gd.getNextNumber();
@@ -246,6 +248,11 @@ public class Speckle_Inspector implements PlugInFilter {
 		//analyze speckles
 		rt.reset();
 		int[] specklesPerObject = new int[objectNumber];
+		
+		if(!redirectToImage.equalsIgnoreCase("None")) {
+			Analyzer.setRedirectImage(WindowManager.getImage(redirectToImage));
+		}
+		
 		for(int o=0; o<objectNumber; o++) {
 			ParticleAnalyzer analyzeSpeckles = new ParticleAnalyzer(speckleAnalyzerOptions, measurementFlags, rt, minSpeckleSize, maxSpeckleSize);
 			//smallObjectImp.killRoi();
