@@ -57,11 +57,12 @@ import ij.plugin.frame.Recorder;
 	THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ?AS IS? AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
 	@author Jan Brocher/BioVoxxel
-	@version 0.2.5
+	@version 0.2.7
  
 	version history:
 	0.2.5: improved exception handling and parameter control / redirecting to original image correctly analyzes Mean, Skew and Kurtosis
 	0.2.6: measurements from a redirected intensity based images are correctly placed in the results table
+	0.2.7: Constructor added
 
  */
 
@@ -90,25 +91,30 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 
 		
 	//Dialog and restriction parameter definition
-	private String Area, Extent, Perimeter, Circularity, Roundness, Solidity, Compactness, AR, FeretAR, EllipsoidAngle, MaxFeret, MinFeret, FeretAngle, COV;
-	private String Output, Redirect, Correction;
-	private String unit;
-	private String reset;
-	private boolean usePixel, usePixelForOutput, Reset, DisplayResults, ClearResults, Summarize, AddToManager, ExcludeEdges, IncludeHoles; //checkbox variable
-	private int displayResults, summarize, addtoManager, excludeEdges, includeHoles; //checkbox result variables
-	private int currentPAOptions = ParticleAnalyzer.CLEAR_WORKSHEET|ParticleAnalyzer.RECORD_STARTS|ParticleAnalyzer.SHOW_MASKS;
-	private int measurementFlags = Measurements.AREA|Measurements.MEAN|Measurements.STD_DEV|Measurements.MODE|Measurements.MIN_MAX|Measurements.CENTROID|Measurements.CENTER_OF_MASS|Measurements.PERIMETER|Measurements.RECT|Measurements.ELLIPSE|Measurements.SHAPE_DESCRIPTORS|Measurements.FERET|Measurements.INTEGRATED_DENSITY|Measurements.MEDIAN|Measurements.SKEWNESS|Measurements.KURTOSIS|Measurements.AREA_FRACTION|Measurements.STACK_POSITION|Measurements.LIMIT|Measurements.LABELS;
+	public String Area, Extent, Perimeter, Circularity, Roundness, Solidity, Compactness, AR, FeretAR, EllipsoidAngle, MaxFeret, MinFeret, FeretAngle, COV;
+	public String Output, Redirect, Correction;
+	public String unit;
+	public String reset;
+	public boolean usePixel, usePixelForOutput, Reset, DisplayResults, ClearResults, Summarize, AddToManager, ExcludeEdges, IncludeHoles; //checkbox variable
+	public int displayResults, summarize, addtoManager, excludeEdges, includeHoles; //checkbox result variables
+	public int currentPAOptions = ParticleAnalyzer.CLEAR_WORKSHEET|ParticleAnalyzer.RECORD_STARTS|ParticleAnalyzer.SHOW_MASKS;
+	public int measurementFlags = Measurements.AREA|Measurements.MEAN|Measurements.STD_DEV|Measurements.MODE|Measurements.MIN_MAX|Measurements.CENTROID|Measurements.CENTER_OF_MASS|Measurements.PERIMETER|Measurements.RECT|Measurements.ELLIPSE|Measurements.SHAPE_DESCRIPTORS|Measurements.FERET|Measurements.INTEGRATED_DENSITY|Measurements.MEDIAN|Measurements.SKEWNESS|Measurements.KURTOSIS|Measurements.AREA_FRACTION|Measurements.STACK_POSITION|Measurements.LIMIT|Measurements.LABELS;
 	private int outputOptions = ParticleAnalyzer.RECORD_STARTS;
-	private double AreaMin = 0.0;
-	private double AreaMax = Double.POSITIVE_INFINITY;
-	private double CircularityMin = 0.0;
-	private double CircularityMax = 1.0;
+	public double AreaMin = 0.0;
+	public double AreaMax = Double.POSITIVE_INFINITY;
+	public double CircularityMin = 0.0;
+	public double CircularityMax = 1.0;
 		
 	//measurement variables
 	private int[] X, Y;
 	private int[] keptResults;
 	private Calibration calibImg;
 
+	
+	public Extended_Particle_Analyzer() {
+		
+	}
+	
 	
 	//------------------------------------------------------------------------------------------------------------------------	
 	public int setup(String arg, ImagePlus imp1) {
