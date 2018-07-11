@@ -108,6 +108,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 	private int[] X, Y;
 	private int[] keptResults;
 	private Calibration calibImg;
+	private String[] imageNames;
 
 	
 	public Extended_Particle_Analyzer() {
@@ -125,41 +126,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 
 	//------------------------------------------------------------------------------------------------------------------------
 
-		if(!inputImp.getProcessor().isBinary()) {
-			IJ.error("works with 8-bit binary images only");
-			return;
-		}
-
-		//getting general dimensional information
-		originalImgID = inputImp.getID();
-		originalImgTitle = inputImp.getTitle();
-			//IJ.log(""+originalImgID);
-		width = inputImp.getWidth();
-		height = inputImp.getHeight();
-		imgDimensions = inputImp.getDimensions();
-		slices = imgDimensions[3];
-		if(slices>1) {
-			IJ.error("does not work with stacks");
-			return;
-		}
-
-		if(!Prefs.blackBackground) {
-			ip1.invert();
-		}
-		if(Prefs.blackBackground && ip1.isInvertedLut()) {
-			ip1.invertLut();
-		}
-
-		//reading in calibration information
-		calibImg = inputImp.getCalibration();
-		
-		unit = calibImg.getUnit();
-		pixelWidth = calibImg.pixelWidth;
-		pixelHeight = calibImg.pixelHeight;
-		squaredPixel = pixelWidth * pixelHeight;
-		
-		//prepare environment and read in names of all open image windows
-		String[] imageNames = getImageNames(inputImp);
+		readInputImageParameters(inputImp);
 		
 		//define variables
 		boolean previousUnit = Prefs.get("advPartAnal.unit", false);
@@ -364,6 +331,45 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 	}
 	
 	//------------------------------------------------------------------------------------------------------------------------
+
+	public void readInputImageParameters(ImagePlus startingImage) {
+		if(!startingImage.getProcessor().isBinary()) {
+			IJ.error("works with 8-bit binary images only");
+			return;
+		}
+
+		//getting general dimensional information
+		originalImgID = startingImage.getID();
+		originalImgTitle = startingImage.getTitle();
+			//IJ.log(""+originalImgID);
+		width = startingImage.getWidth();
+		height = startingImage.getHeight();
+		imgDimensions = startingImage.getDimensions();
+		slices = imgDimensions[3];
+		if(slices>1) {
+			IJ.error("does not work with stacks");
+			return;
+		}
+
+		if(!Prefs.blackBackground) {
+			startingImage.getProcessor().invert();
+		}
+		if(Prefs.blackBackground && startingImage.getProcessor().isInvertedLut()) {
+			startingImage.getProcessor().invertLut();
+		}
+
+		//reading in calibration information
+		calibImg = startingImage.getCalibration();
+		
+		unit = calibImg.getUnit();
+		pixelWidth = calibImg.pixelWidth;
+		pixelHeight = calibImg.pixelHeight;
+		squaredPixel = pixelWidth * pixelHeight;
+		
+		//prepare environment and read in names of all open image windows
+		imageNames = getImageNames(startingImage);
+		
+	}
 
 	public void particleAnalysis(ImageProcessor ip, ImagePlus imp2, String originalImageTitle) {
 
@@ -750,7 +756,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 			outputImg.changes = false;
 			outputImg.close();
 		} else if(!Output.equals("Overlay Outlines") && !Output.equals("Overlay Masks") && !Output.equals("Nothing")) {
-			ImageProcessor outputIP = outputImg.getProcessor();
+			//ImageProcessor outputIP = outputImg.getProcessor();
 			outputImgTitle = outputImg.getTitle();
 			outputImgID = outputImg.getID();
 			outputImg.updateAndDraw();
@@ -973,6 +979,40 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		Prefs.set("advPartAnal.CB5", IncludeHoles);
 		Reset=false;
 		Prefs.set("advPartAnal.CB6", Reset);
+	}
+	
+	//------------------------------------------------------------------------------------------------------------------------
+		
+	public void setDefaultParameterFields() {
+		Area="0-Infinity";
+		Extent="0.00-1.00";
+		Perimeter="0-Infinity";
+		Circularity="0.00-1.00";
+		Roundness="0.00-1.00";
+		Solidity="0.00-1.00";
+		Compactness="0.00-1.00";
+		AR="0-Infinity";
+		FeretAR="0-Infinity";
+		EllipsoidAngle="0-180";
+		MaxFeret="0-Infinity";
+		MinFeret="0-Infinity";
+		FeretAngle="0-180";
+		COV="0.00-1.00";
+		Output="Masks";
+		Correction="None";
+		//checkbox default reset
+		DisplayResults=true;
+		ClearResults = false;
+		Summarize=false;
+		AddToManager=false;
+		ExcludeEdges=false;
+		IncludeHoles=false;
+		Reset=false;
+		Redirect = "None";
+		
+		currentPAOptions = ParticleAnalyzer.CLEAR_WORKSHEET|ParticleAnalyzer.RECORD_STARTS|ParticleAnalyzer.SHOW_MASKS;
+		measurementFlags = Measurements.AREA|Measurements.MEAN|Measurements.STD_DEV|Measurements.MODE|Measurements.MIN_MAX|Measurements.CENTROID|Measurements.CENTER_OF_MASS|Measurements.PERIMETER|Measurements.RECT|Measurements.ELLIPSE|Measurements.SHAPE_DESCRIPTORS|Measurements.FERET|Measurements.INTEGRATED_DENSITY|Measurements.MEDIAN|Measurements.SKEWNESS|Measurements.KURTOSIS|Measurements.AREA_FRACTION|Measurements.STACK_POSITION|Measurements.LIMIT|Measurements.LABELS;
+		outputOptions = ParticleAnalyzer.RECORD_STARTS;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------------
