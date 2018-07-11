@@ -67,7 +67,7 @@ import ij.plugin.frame.Recorder;
 
 public class Extended_Particle_Analyzer implements PlugInFilter {
 
-	ImagePlus imp1, redirectedImg, outputImg;
+	public ImagePlus inputImp, redirectedImg, outputImg;
 	//ImageProcessor ip2;
 	private int resultsCounter = 0;
 	//ResultsTable finalResultsTable = new ResultsTable();
@@ -77,9 +77,9 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 	
 	//variable for image titles
 	private int originalImgID;
-	private String originalImgTitle;
+	public String originalImgTitle;
 	private int outputImgID;
-	private String outputImgTitle;
+	public String outputImgTitle;
 	
 	//image dimension variables
 	private int width, height, slices;
@@ -90,19 +90,19 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 
 		
 	//Dialog and restriction parameter definition
-	private String Area, Extent, Perimeter, Circularity, Roundness, Solidity, Compactness, AR, FeretAR, EllipsoidAngle, MaxFeret, MinFeret, FeretAngle, COV;
-	private String Output, Redirect, Correction;
-	private String unit;
-	private String reset;
-	private boolean usePixel, usePixelForOutput, Reset, DisplayResults, ClearResults, Summarize, AddToManager, ExcludeEdges, IncludeHoles; //checkbox variable
-	private int displayResults, summarize, addtoManager, excludeEdges, includeHoles; //checkbox result variables
-	private int currentPAOptions = ParticleAnalyzer.CLEAR_WORKSHEET|ParticleAnalyzer.RECORD_STARTS|ParticleAnalyzer.SHOW_MASKS;
-	private int measurementFlags = Measurements.AREA|Measurements.MEAN|Measurements.STD_DEV|Measurements.MODE|Measurements.MIN_MAX|Measurements.CENTROID|Measurements.CENTER_OF_MASS|Measurements.PERIMETER|Measurements.RECT|Measurements.ELLIPSE|Measurements.SHAPE_DESCRIPTORS|Measurements.FERET|Measurements.INTEGRATED_DENSITY|Measurements.MEDIAN|Measurements.SKEWNESS|Measurements.KURTOSIS|Measurements.AREA_FRACTION|Measurements.STACK_POSITION|Measurements.LIMIT|Measurements.LABELS;
+	public String Area, Extent, Perimeter, Circularity, Roundness, Solidity, Compactness, AR, FeretAR, EllipsoidAngle, MaxFeret, MinFeret, FeretAngle, COV;
+	public String Output, Redirect, Correction;
+	public String unit;
+	public String reset;
+	public boolean usePixel, usePixelForOutput, Reset, DisplayResults, ClearResults, Summarize, AddToManager, ExcludeEdges, IncludeHoles; //checkbox variable
+	public int displayResults, summarize, addtoManager, excludeEdges, includeHoles; //checkbox result variables
+	public int currentPAOptions = ParticleAnalyzer.CLEAR_WORKSHEET|ParticleAnalyzer.RECORD_STARTS|ParticleAnalyzer.SHOW_MASKS;
+	public int measurementFlags = Measurements.AREA|Measurements.MEAN|Measurements.STD_DEV|Measurements.MODE|Measurements.MIN_MAX|Measurements.CENTROID|Measurements.CENTER_OF_MASS|Measurements.PERIMETER|Measurements.RECT|Measurements.ELLIPSE|Measurements.SHAPE_DESCRIPTORS|Measurements.FERET|Measurements.INTEGRATED_DENSITY|Measurements.MEDIAN|Measurements.SKEWNESS|Measurements.KURTOSIS|Measurements.AREA_FRACTION|Measurements.STACK_POSITION|Measurements.LIMIT|Measurements.LABELS;
 	private int outputOptions = ParticleAnalyzer.RECORD_STARTS;
-	private double AreaMin = 0.0;
-	private double AreaMax = Double.POSITIVE_INFINITY;
-	private double CircularityMin = 0.0;
-	private double CircularityMax = 1.0;
+	public double AreaMin = 0.0;
+	public double AreaMax = Double.POSITIVE_INFINITY;
+	public double CircularityMin = 0.0;
+	public double CircularityMax = 1.0;
 		
 	//measurement variables
 	private int[] X, Y;
@@ -110,9 +110,13 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 	private Calibration calibImg;
 
 	
+	public Extended_Particle_Analyzer() {
+		
+	}
+	
 	//------------------------------------------------------------------------------------------------------------------------	
 	public int setup(String arg, ImagePlus imp1) {
-    		this.imp1 = imp1;
+    		this.inputImp = imp1;
     		return flags;
 	}
 	
@@ -121,18 +125,18 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 
 	//------------------------------------------------------------------------------------------------------------------------
 
-		if(!imp1.getProcessor().isBinary()) {
+		if(!inputImp.getProcessor().isBinary()) {
 			IJ.error("works with 8-bit binary images only");
 			return;
 		}
 
 		//getting general dimensional information
-		originalImgID = imp1.getID();
-		originalImgTitle = imp1.getTitle();
+		originalImgID = inputImp.getID();
+		originalImgTitle = inputImp.getTitle();
 			//IJ.log(""+originalImgID);
-		width = imp1.getWidth();
-		height = imp1.getHeight();
-		imgDimensions = imp1.getDimensions();
+		width = inputImp.getWidth();
+		height = inputImp.getHeight();
+		imgDimensions = inputImp.getDimensions();
 		slices = imgDimensions[3];
 		if(slices>1) {
 			IJ.error("does not work with stacks");
@@ -147,7 +151,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		}
 
 		//reading in calibration information
-		calibImg = imp1.getCalibration();
+		calibImg = inputImp.getCalibration();
 		
 		unit = calibImg.getUnit();
 		pixelWidth = calibImg.pixelWidth;
@@ -155,7 +159,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		squaredPixel = pixelWidth * pixelHeight;
 		
 		//prepare environment and read in names of all open image windows
-		String[] imageNames = getImageNames(imp1);
+		String[] imageNames = getImageNames(inputImp);
 		
 		//define variables
 		boolean previousUnit = Prefs.get("advPartAnal.unit", false);
