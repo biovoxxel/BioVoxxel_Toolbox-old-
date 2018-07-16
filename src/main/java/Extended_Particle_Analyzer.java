@@ -109,6 +109,7 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 	private int[] keptResults;
 	private Calibration calibImg;
 	private String[] imageNames;
+	public ResultsTable outputResultsTable = null;
 
 	
 	public Extended_Particle_Analyzer() {
@@ -673,7 +674,6 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		}
 		initialResultsTable = null;
 
-		ResultsTable outputResultsTable;
 		if(existingResultsTableWindow!=null) {
 			IJ.renameResults("oldResultsTable", "Results");
 			outputResultsTable = ResultsTable.getResultsTable();
@@ -763,29 +763,30 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		}
 
 		//potentially include convexity calculation here
-		if(DisplayResults) {
-			int finalResultNumber = outputResultsTable.getCounter();
-			int keptResultsCounter = 0;
-			for(int writeNew=existingResultsCounter; writeNew<finalResultNumber; writeNew++) {
-				outputResultsTable.setValue("FeretAR", writeNew, FAR[keptResults[keptResultsCounter]]);
-				outputResultsTable.setValue("Compact", writeNew, compactness[keptResults[keptResultsCounter]]);
-				outputResultsTable.setValue("Extent", writeNew, extent[keptResults[keptResultsCounter]]);
-				if(!Redirect.equals("None")) {
-					outputResultsTable.setValue("COV", writeNew, cov[keptResults[keptResultsCounter]]);
-					outputResultsTable.setValue("Mean", writeNew, originalMeanValue[keptResults[keptResultsCounter]]);
-					outputResultsTable.setValue("Median", writeNew, originalMedian[keptResults[keptResultsCounter]]);
-					outputResultsTable.setValue("Mode", writeNew, originalMode[keptResults[keptResultsCounter]]);
-					outputResultsTable.setValue("StdDev", writeNew, originalStdDev[keptResults[keptResultsCounter]]);
-					outputResultsTable.setValue("IntDen", writeNew, originalIntDen[keptResults[keptResultsCounter]]);
-					outputResultsTable.setValue("RawIntDen", writeNew, originalRawIntDen[keptResults[keptResultsCounter]]);
-					outputResultsTable.setValue("Min", writeNew, originalMin[keptResults[keptResultsCounter]]);
-					outputResultsTable.setValue("Max", writeNew, originalMax[keptResults[keptResultsCounter]]);
-					outputResultsTable.setValue("Skew", writeNew, originalSkewness[keptResults[keptResultsCounter]]);
-					outputResultsTable.setValue("Kurt", writeNew, originalKurtosis[keptResults[keptResultsCounter]]);	
-				}
-				keptResultsCounter++;
+		
+		int finalResultNumber = outputResultsTable.getCounter();
+		int keptResultsCounter = 0;
+		for(int writeNew=existingResultsCounter; writeNew<finalResultNumber; writeNew++) {
+			outputResultsTable.setValue("FeretAR", writeNew, FAR[keptResults[keptResultsCounter]]);
+			outputResultsTable.setValue("Compact", writeNew, compactness[keptResults[keptResultsCounter]]);
+			outputResultsTable.setValue("Extent", writeNew, extent[keptResults[keptResultsCounter]]);
+			if(!Redirect.equals("None")) {
+				outputResultsTable.setValue("COV", writeNew, cov[keptResults[keptResultsCounter]]);
+				outputResultsTable.setValue("Mean", writeNew, originalMeanValue[keptResults[keptResultsCounter]]);
+				outputResultsTable.setValue("Median", writeNew, originalMedian[keptResults[keptResultsCounter]]);
+				outputResultsTable.setValue("Mode", writeNew, originalMode[keptResults[keptResultsCounter]]);
+				outputResultsTable.setValue("StdDev", writeNew, originalStdDev[keptResults[keptResultsCounter]]);
+				outputResultsTable.setValue("IntDen", writeNew, originalIntDen[keptResults[keptResultsCounter]]);
+				outputResultsTable.setValue("RawIntDen", writeNew, originalRawIntDen[keptResults[keptResultsCounter]]);
+				outputResultsTable.setValue("Min", writeNew, originalMin[keptResults[keptResultsCounter]]);
+				outputResultsTable.setValue("Max", writeNew, originalMax[keptResults[keptResultsCounter]]);
+				outputResultsTable.setValue("Skew", writeNew, originalSkewness[keptResults[keptResultsCounter]]);
+				outputResultsTable.setValue("Kurt", writeNew, originalKurtosis[keptResults[keptResultsCounter]]);	
 			}
-			
+			keptResultsCounter++;
+		}
+		
+		if(DisplayResults) {
 			outputResultsTable.show("Results");
 		}
 
@@ -1090,6 +1091,14 @@ public class Extended_Particle_Analyzer implements PlugInFilter {
 		for(int r=0; r<rt.getCounter(); r++) {
 			//TODO: exchange all pixel based values for calibrated ones
 		}
+	}
+	
+	public ResultsTable getResultsTable() {
+		return outputResultsTable;
+	}
+	
+	public ImagePlus getOutputImage() {
+		return outputImg;
 	}
 	
 	//------------------------------------------------------------------------------------------------------------------------
