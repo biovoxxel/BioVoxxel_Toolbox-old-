@@ -137,10 +137,7 @@ public class Pseudo_flat_field_correction implements ExtendedPlugInFilter, Dialo
 		float[] brightness = new float[imageSize];
 		//int[] roundedBrightness = new int[imageSize];
 		
-		ImageStatistics imgStats = imp.getStatistics();
-		float originalMeanIntensity;
 		
-
 		ImageProcessor duplicatedIp = ip.createProcessor(width, height);
 		if(imp.getBitDepth()==24) {
 			duplicatedIp = duplicatedIp.convertToFloatProcessor();
@@ -157,20 +154,17 @@ public class Pseudo_flat_field_correction implements ExtendedPlugInFilter, Dialo
 					saturation[n] = hsbValues[1];
 					brightness[n] = hsbValues[2];
 
-					//roundedBrightness[n] = Math.round(255 * brightness[n]);
-					brightnessValueSum = brightnessValueSum + brightness[n];
+					//brightnessValueSum = brightnessValueSum + brightness[n];
 					duplicatedIp.putPixelValue(x, y, (double)brightness[n]);
 					n++;	
 				}
 			}
 			
-			originalMeanIntensity = (brightnessValueSum / n);	
 			visualizedBlur = duplicatedIp.duplicate();
 		
 		} else {
 			duplicatedIp = ip.duplicate();
 			visualizedBlur = ip.duplicate();
-			originalMeanIntensity = (float)imgStats.mean;
 		}
 
 		ImagePlus duplicatedImp = new ImagePlus();
@@ -178,7 +172,7 @@ public class Pseudo_flat_field_correction implements ExtendedPlugInFilter, Dialo
 		
 		GaussianBlur blurredBackground = new GaussianBlur();
 		blurredBackground.blurGaussian(duplicatedIp, radius, radius, 0.02);
-
+		float backgroundMeanIntensity = (float)duplicatedIp.getStatistics().mean;
 			
 		String originalTitle = imp.getTitle();
 		updatedBlurImage.setTitle(originalTitle+"_background");
@@ -205,7 +199,7 @@ public class Pseudo_flat_field_correction implements ExtendedPlugInFilter, Dialo
 			for(int y=0; y<height; y++) {
 				for(int x=0; x<width; x++) {
 					if(duplicatedIp.getPixelValue(x, y)!=0) {
-						newBrightnessValue[m] =  ((brightness[m] * originalMeanIntensity) / (duplicatedIp.getPixelValue(x, y)));
+						newBrightnessValue[m] =  ((brightness[m] * backgroundMeanIntensity) / (duplicatedIp.getPixelValue(x, y)));
 						if(newBrightnessValue[m] > highestBackgroundPixel) {
 							highestBackgroundPixel = newBrightnessValue[m];
 						}
@@ -247,7 +241,7 @@ public class Pseudo_flat_field_correction implements ExtendedPlugInFilter, Dialo
 					if(duplicatedIp.getPixel(x, y)==0) {
 						newPixel = ip.getPixel(x, y);
 					} else {
-						newPixel = ((ip.getPixel(x, y) * (int)originalMeanIntensity) / duplicatedIp.getPixel(x, y));
+						newPixel = ((ip.getPixel(x, y) * (int)backgroundMeanIntensity) / duplicatedIp.getPixel(x, y));
 					}
 					ip.putPixelValue(x, y, newPixel);
 				}
