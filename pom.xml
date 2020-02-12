@@ -42,6 +42,11 @@
 		</contributor>
 	</contributors>
 	
+	<mailingLists>
+		<mailingList>
+			<name>BioVoxxel</name>
+		</mailingList>
+	</mailingLists>
 	
 	<repositories>
 		<repository>
@@ -75,11 +80,6 @@
 			<artifactId>imglib2-ij</artifactId>
 			<version>2.0.0-beta-39</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
-		<dependency>
-		  <groupId>gov.nih.imagej</groupId>
-		  <artifactId>imagej</artifactId>
-		  <version>1.47</version>
-		</dependency>
 	</dependencies>
 	
 	<parent>
@@ -89,4 +89,21 @@
 		<groupId>org.scijava</groupId>
 	</parent>
 	
+	<scm>
+		<url>www-biovoxxel.de</url>
+		<developerConnection>Jan Brocher</developerConnection>
+	</scm>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>http://github.com/imagej/imagej-tutorials/issues</url>
+	</issueManagement>
+	<inceptionYear>2014</inceptionYear>
+	<properties>
+		<license.licenseName>BDS-3</license.licenseName>
+		<license.copyrightOwners>Jan Brocher</license.copyrightOwners>
+		<package-name>de.biovoxxel.toolbox</package-name>
+	</properties>
+	<ciManagement>
+		<system>none</system>
+	</ciManagement>
 </project>
