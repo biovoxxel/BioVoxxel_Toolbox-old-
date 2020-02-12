@@ -364,6 +364,8 @@ public class Speckle_Inspector implements PlugInFilter {
 
 		analyzeObjects = null;
 		//rm = null;
+		
+		Analyzer.setRedirectImage(null);
 
 	}
 	
