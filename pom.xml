@@ -84,9 +84,9 @@
 	
 	<parent>
 		<relativePath />
-		<artifactId>pom-fiji</artifactId>
-		<version>27.0.0</version>
-		<groupId>sc.fiji</groupId>
+		<artifactId>pom-scijava</artifactId>
+		<version>27.0.1</version>
+		<groupId>org.scijava</groupId>
 	</parent>
 	
 </project>
